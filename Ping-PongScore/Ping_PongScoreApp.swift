@@ -11,7 +11,7 @@ import SwiftUI
 struct Ping_PongScoreApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OpeningView()
         }
     }
 }

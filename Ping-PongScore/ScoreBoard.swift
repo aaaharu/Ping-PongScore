@@ -27,7 +27,8 @@ struct LandscapeOnlyViewControllerWrapper: UIViewControllerRepresentable {
 
 
 
-struct ContentView: View {
+struct ScoreBoard: View {
+    
     
     
     @State private var userOneText = 0 {
@@ -75,10 +76,9 @@ struct ContentView: View {
                     )
                     .frame(width: 180, height: 250)
                     .foregroundColor(.red)
-                    .offset(x: -250, y: 80)
+                    .offset(x: -250, y: 140)
                     .rotation3DEffect(Angle(degrees: flipDegreesUserOne), axis: (x: 1, y: 0, z: 0), perspective: flipPersDegreesUserOne) // 뒤로 넘어가는 효과
                     .onTapGesture {
-                        
                         addUserOneScore()
                     }
                     .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
@@ -106,23 +106,32 @@ struct ContentView: View {
                 Text("\(userOneText)")
                     .foregroundStyle(.yellow)
                     .bold()
-                    .font(.largeTitle)
-                    .offset(x: -250, y: 80)
+                    .font(.system(size: 130, weight:.bold, design: .default))
+
+                    .offset(x: -250, y: 140)
                 // 서브권
                 Rectangle()
                     .frame(width: 160, height: 10)
-                    .offset(x: -250, y: 190)
+                    .offset(x: -250, y: 250)
                     .foregroundColor(isUserOneServing ? .indigo : .clear)
                 // 세트 스코어
                 Rectangle()
-                    .frame(width:70, height: 90)
+                    .clipShape(
+                        .rect(
+                            topLeadingRadius: 10,
+                            bottomLeadingRadius: 10,
+                            bottomTrailingRadius: 10,
+                            topTrailingRadius: 10
+                        )
+                    )
+                    .frame(width:100, height: 130)
                     .foregroundColor(.red)
-                    .offset(x: -110, y: 160)
+                    .offset(x: -100, y: 200)
                 Text("\(setScoreUserOne)")
                     .foregroundStyle(.yellow)
                     .bold()
-                    .font(.largeTitle)
-                    .offset(x: -110, y: 160)
+                    .font(.system(size: 50, weight:.bold, design: .default))
+                    .offset(x: -100, y: 200)
                 
                 
                 
@@ -138,7 +147,7 @@ struct ContentView: View {
                     )
                     .frame(width: 180, height: 250)
                     .foregroundColor(.red)
-                    .offset(x: 250, y: 80)
+                    .offset(x: 250, y: 140)
                     .rotation3DEffect(Angle(degrees: flipDegreesUserTwo), axis: (x: 1, y: 0, z: 0), perspective: flipPersDegreesUserTwo) // 뒤로 넘어가는 효과
                     .onTapGesture {
                         addUserTwoScore()
@@ -167,31 +176,48 @@ struct ContentView: View {
                         }))
                 // 서브권
                 Rectangle()
+                
                     .frame(width: 160, height: 10)
-                    .offset(x: 250, y: 190)
+                    .offset(x: 250, y: 240)
                     .foregroundColor(isUserOneServing ? .clear : .indigo)
                 
                 Text("\(userTwoText)")
                     .foregroundStyle(.yellow)
                     .bold()
-                    .font(.largeTitle)
-                    .offset(x: 250, y: 80)
+                    .font(.system(size: 130, weight:.bold, design: .default))
+                    .offset(x: 250, y: 150)
             }
             
             // 세트 스코어
             Rectangle()
-                .frame(width:70, height: 90)
+                .clipShape(
+                    .rect(
+                        topLeadingRadius: 10,
+                        bottomLeadingRadius: 10,
+                        bottomTrailingRadius: 10,
+                        topTrailingRadius: 10
+                    )
+                )
+                .frame(width:100, height: 130)
                 .foregroundColor(.red)
-                .offset(x: 110, y: -30)
+                .offset(x: 100, y: -70)
             Text("\(setScoreUserTwo)")
                 .foregroundStyle(.yellow)
                 .bold()
-                .font(.largeTitle)
-                .offset(x: 110, y: -190)
+                .font(.system(size: 50, weight:.bold, design: .default))
+                .offset(x: 100, y: -180)
             
         }
         .padding()
         .background(LandscapeOnlyViewControllerWrapper())
+        
+        // 앱 화면이 안 꺼지게 하기
+        .onAppear {
+                   UIApplication.shared.isIdleTimerDisabled = true
+               }
+               .onDisappear {
+                   UIApplication.shared.isIdleTimerDisabled = false
+               }
         
     }
     
@@ -356,11 +382,9 @@ struct ContentView: View {
 
 
 
-// 화면이 안 꺼지게 하기 앱이 Foreground에 있을 떄
-// 서브 권이 맨 처음 언제인지 표시하기!
 
 #Preview {
-    ContentView()
+    ScoreBoard()
 }
 
 

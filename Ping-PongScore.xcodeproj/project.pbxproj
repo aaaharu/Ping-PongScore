@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		D31399502B3E95D90065AF57 /* Ping_PongScoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */; };
-		D31399522B3E95D90065AF57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31399512B3E95D90065AF57 /* ContentView.swift */; };
+		D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31399512B3E95D90065AF57 /* ScoreBoard.swift */; };
 		D31399542B3E95DB0065AF57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31399532B3E95DB0065AF57 /* Assets.xcassets */; };
 		D31399572B3E95DB0065AF57 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31399562B3E95DB0065AF57 /* Preview Assets.xcassets */; };
 		D31399612B3E95DB0065AF57 /* Ping_PongScoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31399602B3E95DB0065AF57 /* Ping_PongScoreTests.swift */; };
 		D313996B2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */; };
 		D313996D2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */; };
+		D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13B2B433B1D006502B7 /* OpeningView.swift */; };
+		D395D13E2B433CF4006502B7 /* LoadRecentGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */; };
+		D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC29C02B42C35300FCAE46 /* TODO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +39,7 @@
 /* Begin PBXFileReference section */
 		D313994C2B3E95D90065AF57 /* Ping-PongScore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ping-PongScore.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreApp.swift; sourceTree = "<group>"; };
-		D31399512B3E95D90065AF57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D31399512B3E95D90065AF57 /* ScoreBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBoard.swift; sourceTree = "<group>"; };
 		D31399532B3E95DB0065AF57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31399562B3E95DB0065AF57 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D313995C2B3E95DB0065AF57 /* Ping-PongScoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ping-PongScoreTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +47,9 @@
 		D31399662B3E95DB0065AF57 /* Ping-PongScoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ping-PongScoreUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITests.swift; sourceTree = "<group>"; };
 		D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D395D13B2B433B1D006502B7 /* OpeningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningView.swift; sourceTree = "<group>"; };
+		D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRecentGame.swift; sourceTree = "<group>"; };
+		D3BC29C02B42C35300FCAE46 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +100,11 @@
 		D313994E2B3E95D90065AF57 /* Ping-PongScore */ = {
 			isa = PBXGroup;
 			children = (
+				D3BC29C02B42C35300FCAE46 /* TODO.swift */,
 				D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */,
-				D31399512B3E95D90065AF57 /* ContentView.swift */,
+				D395D13B2B433B1D006502B7 /* OpeningView.swift */,
+				D31399512B3E95D90065AF57 /* ScoreBoard.swift */,
+				D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */,
 				D31399532B3E95DB0065AF57 /* Assets.xcassets */,
 				D31399552B3E95DB0065AF57 /* Preview Content */,
 			);
@@ -257,8 +266,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D31399522B3E95D90065AF57 /* ContentView.swift in Sources */,
+				D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */,
 				D31399502B3E95D90065AF57 /* Ping_PongScoreApp.swift in Sources */,
+				D395D13E2B433CF4006502B7 /* LoadRecentGame.swift in Sources */,
+				D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */,
+				D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
