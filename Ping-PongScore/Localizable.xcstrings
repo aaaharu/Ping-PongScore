@@ -1,0 +1,38 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld" : {
+
+    },
+    "Hello, World!" : {
+
+    },
+    "Last \nGame" : {
+
+    },
+    "New \nGame" : {
+
+    },
+    "Score Record" : {
+
+    },
+    "Victory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "勝ち"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "승리"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

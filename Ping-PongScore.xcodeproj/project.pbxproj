@@ -15,7 +15,12 @@
 		D313996B2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */; };
 		D313996D2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */; };
 		D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13B2B433B1D006502B7 /* OpeningView.swift */; };
-		D395D13E2B433CF4006502B7 /* LoadRecentGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */; };
+		D395D13E2B433CF4006502B7 /* LastGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13D2B433CF4006502B7 /* LastGame.swift */; };
+		D395D1402B43F69B006502B7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D395D13F2B43F69B006502B7 /* Localizable.xcstrings */; };
+		D395D1442B443C91006502B7 /* DNFBitBitTTF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */; };
+		D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
+		D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
+		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC29C02B42C35300FCAE46 /* TODO.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,7 +53,11 @@
 		D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITests.swift; sourceTree = "<group>"; };
 		D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D395D13B2B433B1D006502B7 /* OpeningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningView.swift; sourceTree = "<group>"; };
-		D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRecentGame.swift; sourceTree = "<group>"; };
+		D395D13D2B433CF4006502B7 /* LastGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastGame.swift; sourceTree = "<group>"; };
+		D395D13F2B43F69B006502B7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DNFBitBitTTF.ttf; sourceTree = SOURCE_ROOT; };
+		D395D1432B443C91006502B7 /* DungGeunMo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DungGeunMo.ttf; sourceTree = SOURCE_ROOT; };
+		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D3BC29C02B42C35300FCAE46 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +89,7 @@
 		D31399432B3E95D90065AF57 = {
 			isa = PBXGroup;
 			children = (
+				D395D1412B443C78006502B7 /* Resources */,
 				D313994E2B3E95D90065AF57 /* Ping-PongScore */,
 				D313995F2B3E95DB0065AF57 /* Ping-PongScoreTests */,
 				D31399692B3E95DB0065AF57 /* Ping-PongScoreUITests */,
@@ -100,13 +110,15 @@
 		D313994E2B3E95D90065AF57 /* Ping-PongScore */ = {
 			isa = PBXGroup;
 			children = (
+				D395D1462B443D1B006502B7 /* Info.plist */,
 				D3BC29C02B42C35300FCAE46 /* TODO.swift */,
 				D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */,
 				D395D13B2B433B1D006502B7 /* OpeningView.swift */,
 				D31399512B3E95D90065AF57 /* ScoreBoard.swift */,
-				D395D13D2B433CF4006502B7 /* LoadRecentGame.swift */,
+				D395D13D2B433CF4006502B7 /* LastGame.swift */,
 				D31399532B3E95DB0065AF57 /* Assets.xcassets */,
 				D31399552B3E95DB0065AF57 /* Preview Content */,
+				D395D13F2B43F69B006502B7 /* Localizable.xcstrings */,
 			);
 			path = "Ping-PongScore";
 			sourceTree = "<group>";
@@ -134,6 +146,15 @@
 				D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */,
 			);
 			path = "Ping-PongScoreUITests";
+			sourceTree = "<group>";
+		};
+		D395D1412B443C78006502B7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */,
+				D395D1432B443C91006502B7 /* DungGeunMo.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +243,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				ja,
 			);
 			mainGroup = D31399432B3E95D90065AF57;
 			productRefGroup = D313994D2B3E95D90065AF57 /* Products */;
@@ -240,8 +263,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */,
+				D395D1442B443C91006502B7 /* DNFBitBitTTF.ttf in Resources */,
 				D31399572B3E95DB0065AF57 /* Preview Assets.xcassets in Resources */,
 				D31399542B3E95DB0065AF57 /* Assets.xcassets in Resources */,
+				D395D1402B43F69B006502B7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +296,7 @@
 			files = (
 				D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */,
 				D31399502B3E95D90065AF57 /* Ping_PongScoreApp.swift in Sources */,
-				D395D13E2B433CF4006502B7 /* LoadRecentGame.swift in Sources */,
+				D395D13E2B433CF4006502B7 /* LastGame.swift in Sources */,
 				D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */,
 				D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */,
 			);
@@ -359,7 +387,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -416,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -437,6 +465,7 @@
 				DEVELOPMENT_TEAM = 35UX23ZT7W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Ping-PongScore/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "탁구 점수판";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -470,6 +499,7 @@
 				DEVELOPMENT_TEAM = 35UX23ZT7W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Ping-PongScore/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "탁구 점수판";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

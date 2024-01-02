@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import AVFoundation
+import Foundation
+import NaturalLanguage
 
 // 가로 방향
 
@@ -25,17 +28,79 @@ struct LandscapeOnlyViewControllerWrapper: UIViewControllerRepresentable {
     }
 }
 
+import Combine
 
+class ScoreBoardVM : ObservableObject {
+    
+    @Published var userOneText : Int = 0
+    
+    var subscriptions : Set<AnyCancellable> = Set()
+    
+    var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
+    
+    init(){
+        
+        $userOneText
+            .sink(receiveValue: { score in
+                
+            }).store(in: &subscriptions)
+    }
+    
+    func sayScore(score: Int){
+//        var utterance = AVSpeechUtterance(string: "\(score)")
+//        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+//        utterance.rate = 0.1
+//
+        
+//
+        let audioSession = AVAudioSession.sharedInstance()  //2
+        do {
+            try audioSession.setCategory(AVAudioSession.Category.soloAmbient)
+            try audioSession.setMode(AVAudioSession.Mode.spokenAudio)
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
+//        var utterance = AVSpeechUtterance(string: "\(score)")
+//        utterance.rate = 0.3
+//        let synthesizer = AVSpeechSynthesizer()
+//        synthesizer.speak(utterance)
+        
+        speakText("\(score)")
+    }
+    func speakText(_ text: String) {
+        synthesizer.stopSpeaking(at: .immediate)
+        
+        let utterance = AVSpeechUtterance(string: text)
+        
+        if let language = self.detectLanguageOf(text: text) {
+            utterance.voice = AVSpeechSynthesisVoice(language: language.rawValue)
+        }
+        
+        synthesizer.speak(utterance)
+    }
+    
+    private func detectLanguageOf(text: String) -> NLLanguage? {
+        let recognizer = NLLanguageRecognizer()
+        recognizer.processString(text)
+        
+        guard let language = recognizer.dominantLanguage else {
+            return nil
+        }
+        
+        return language
+    }}
 
 struct ScoreBoard: View {
     
-    
+    @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
     
     @State private var userOneText = 0 {
         didSet {
             winScore()
         }
     }
+    
     @State private var userTwoText = 0 {
         didSet {
             winScore()
@@ -49,6 +114,7 @@ struct ScoreBoard: View {
         didSet {
             print("총 점수: \(allScore)")
             updateServing()
+            viewModel.sayScore(score: allScore)
         }
     }
     
@@ -151,6 +217,7 @@ struct ScoreBoard: View {
                     .rotation3DEffect(Angle(degrees: flipDegreesUserTwo), axis: (x: 1, y: 0, z: 0), perspective: flipPersDegreesUserTwo) // 뒤로 넘어가는 효과
                     .onTapGesture {
                         addUserTwoScore()
+//                        viewModel.sayScore(score: 10)
                     }
                     .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                         .onEnded({ value in
