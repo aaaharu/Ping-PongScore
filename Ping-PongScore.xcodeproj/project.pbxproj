@@ -23,6 +23,7 @@
 		D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC29C02B42C35300FCAE46 /* TODO.swift */; };
+		D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3ED4E142B472FF50043FF68 /* Helper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		D395D1432B443C91006502B7 /* DungGeunMo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DungGeunMo.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D3BC29C02B42C35300FCAE46 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
+		D3ED4E142B472FF50043FF68 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 				D39276AC2B4690C400A347D2 /* NewGame.swift */,
 				D31399512B3E95D90065AF57 /* ScoreBoard.swift */,
 				D395D13D2B433CF4006502B7 /* LastGame.swift */,
+				D3ED4E142B472FF50043FF68 /* Helper.swift */,
 				D31399532B3E95DB0065AF57 /* Assets.xcassets */,
 				D31399552B3E95DB0065AF57 /* Preview Content */,
 				D395D13F2B43F69B006502B7 /* Localizable.xcstrings */,
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D39276AD2B4690C400A347D2 /* NewGame.swift in Sources */,
+				D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */,
 				D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */,
 				D31399502B3E95D90065AF57 /* Ping_PongScoreApp.swift in Sources */,
 				D395D13E2B433CF4006502B7 /* LastGame.swift in Sources */,

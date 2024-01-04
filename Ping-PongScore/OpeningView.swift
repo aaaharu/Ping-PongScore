@@ -14,9 +14,6 @@ struct OpeningView: View {
     @State private var moveToLastGame = false
     
     var body: some View {
-        let blackRectangleWidth = UIScreen.main.bounds.width * 0.17
-        let blackRectangleHeight = UIScreen.main.bounds.height * 0.40
-        
         
         let blackRectangle = Rectangle()
             .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.40)
@@ -30,6 +27,7 @@ struct OpeningView: View {
                 )
             )
         NavigationStack {
+          
             ZStack {
                 // 탁구대
                 Rectangle()
@@ -77,7 +75,7 @@ struct OpeningView: View {
                                 .font(.custom("DungGeunMo", size: 40))
                                 .navigationDestination(isPresented: $moveToLastGame, destination: {
                                     LastGame()
-                                })
+                                }).navigationBarBackButtonHidden()
                         }
                         // 빨간판 밑
                         Rectangle()
