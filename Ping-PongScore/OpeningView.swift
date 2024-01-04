@@ -10,10 +10,25 @@ import UIKit
 
 struct OpeningView: View {
     
-    @State private var moveToScoreBoard = false
+    @State private var moveToNewGame = false
     @State private var moveToLastGame = false
     
     var body: some View {
+        let blackRectangleWidth = UIScreen.main.bounds.width * 0.17
+        let blackRectangleHeight = UIScreen.main.bounds.height * 0.40
+        
+        
+        let blackRectangle = Rectangle()
+            .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.40)
+            .foregroundStyle(Color(red: 0/255, green: 0/255, blue: 0/255))
+            .clipShape(
+                .rect(
+                    topLeadingRadius: 40,
+                    bottomLeadingRadius: 0,
+                    bottomTrailingRadius: 0,
+                    topTrailingRadius: 40
+                )
+            )
         NavigationStack {
             ZStack {
                 // 탁구대
@@ -37,61 +52,13 @@ struct OpeningView: View {
                     .foregroundStyle(.white)
                 
                 HStack(spacing: 27) {
-                VStack(spacing: 0) {
-                    
-                    ZStack {
-                        // 빨간판
-                        Rectangle()
-                            .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.40)
-                            .foregroundStyle(Color(red: 240/255, green: 54/255, blue: 42/255))
-                            .clipShape(
-                                .rect(
-                                    topLeadingRadius: 40,
-                                    bottomLeadingRadius: 0,
-                                    bottomTrailingRadius: 0,
-                                    topTrailingRadius: 40
-                                )
-                            )
-                        Button("Last \nGame") {
-                            moveToLastGame = true
-                        }.foregroundStyle(.black)
-                            .backgroundStyle(.clear)
-                            .buttonStyle(.bordered)
-                            .font(.custom("DungGeunMo", size: 40))
-                        
-                            .navigationDestination(isPresented: $moveToLastGame, destination: {
-                                LastGame()
-                            })
-                    }
-                    // 빨간판 밑
-                    Rectangle()
-                        .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.1)
-                        
-                        .foregroundStyle(Color(red: 211/255, green: 165/255, blue: 140/255))
-                        .clipShape(
-                            .rect(
-                                topLeadingRadius: -40,
-                                bottomLeadingRadius: 50,
-                                bottomTrailingRadius: 50,
-                                topTrailingRadius: -40
-                            )
-                        )
-                    // 탁구 막대바
-                    Rectangle()
-                        .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
-                        
-                        .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
-                }
-                
-                
-                
                     VStack(spacing: 0) {
                         
                         ZStack {
-                            // 검은판
+                            // 빨간판
                             Rectangle()
                                 .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.40)
-                                .foregroundStyle(Color(red: 0/255, green: 0/255, blue: 0/255))
+                                .foregroundStyle(Color(red: 240/255, green: 54/255, blue: 42/255))
                                 .clipShape(
                                     .rect(
                                         topLeadingRadius: 40,
@@ -100,24 +67,22 @@ struct OpeningView: View {
                                         topTrailingRadius: 40
                                     )
                                 )
-                            
-                            
-                            Button("New \nGame") {
-                                moveToScoreBoard = true
-                            }.foregroundStyle(.white)
+                            Button("Last \nGame") {
+                                moveToLastGame = true
+                            }    .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                                .contentShape(Rectangle())
                                 .backgroundStyle(.clear)
-                                .buttonStyle(.bordered)
+                                .padding(0)
+                                .layoutPriority(1)
                                 .font(.custom("DungGeunMo", size: 40))
-                            
-                            
-                                .navigationDestination(isPresented: $moveToScoreBoard, destination: {
-                                    ScoreBoard()
+                                .navigationDestination(isPresented: $moveToLastGame, destination: {
+                                    LastGame()
                                 })
                         }
                         // 빨간판 밑
                         Rectangle()
                             .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.1)
-                            
+                        
                             .foregroundStyle(Color(red: 211/255, green: 165/255, blue: 140/255))
                             .clipShape(
                                 .rect(
@@ -130,15 +95,61 @@ struct OpeningView: View {
                         // 탁구 막대바
                         Rectangle()
                             .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
-                            
+                        
+                            .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
+                    }
+                    
+                    
+                    
+                    VStack(spacing: 0) {
+                        
+                        ZStack() {
+                            // 검은판
+                            blackRectangle
+                            Button(action: {
+                                moveToNewGame = true
+                            }) {
+                                Text("New \nGame")
+                                    .font(.custom("DungGeunMo", size: 40))
+                                    .foregroundColor(.yellow)
+                            }
+                            .tint(.purple)
+                            .padding(0)
+                            .buttonStyle(.borderedProminent)
+                            .contentShape(Rectangle()) // 전체 영역이 클릭 가능하도록
+                            .navigationDestination(isPresented: $moveToNewGame, destination: {
+                                NewGame()
+                            })
+                        }
+                        
+                        
+                        // 빨간판 밑
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.1)
+                        
+                            .foregroundStyle(Color(red: 211/255, green: 165/255, blue: 140/255))
+                            .clipShape(
+                                .rect(
+                                    topLeadingRadius: -40,
+                                    bottomLeadingRadius: 50,
+                                    bottomTrailingRadius: 50,
+                                    topTrailingRadius: -40
+                                )
+                            )
+                        // 탁구 막대바
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
+                        
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
                     }
                     
                     Button("Score Record") {
                         moveToLastGame = true
-                    }.foregroundStyle(.black)
-                        .backgroundStyle(.red)
-                        .buttonStyle(.bordered)
+                    }
+                    .foregroundStyle(.black)
+                    .backgroundStyle(.red)
+                    .buttonStyle(.bordered)
+                    
                     
                     
                     
