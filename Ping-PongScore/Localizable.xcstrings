@@ -7,9 +7,6 @@
     "%lld/10" : {
 
     },
-    "Enter your name" : {
-
-    },
     "Hello, World!" : {
 
     },
@@ -17,6 +14,15 @@
 
     },
     "New \nGame" : {
+
+    },
+    "Play Game" : {
+
+    },
+    "Player1" : {
+
+    },
+    "Player2" : {
 
     },
     "Score Record" : {

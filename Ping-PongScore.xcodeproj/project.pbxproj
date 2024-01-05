@@ -24,6 +24,7 @@
 		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D3BC29C12B42C35300FCAE46 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC29C02B42C35300FCAE46 /* TODO.swift */; };
 		D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3ED4E142B472FF50043FF68 /* Helper.swift */; };
+		D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3ED4E162B47CD540043FF68 /* pingpong.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D3BC29C02B42C35300FCAE46 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
 		D3ED4E142B472FF50043FF68 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		D3ED4E162B47CD540043FF68 /* pingpong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pingpong.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 		D395D1412B443C78006502B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D3ED4E162B47CD540043FF68 /* pingpong.mp3 */,
 				D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */,
 				D395D1432B443C91006502B7 /* DungGeunMo.ttf */,
 			);
@@ -271,6 +274,7 @@
 			files = (
 				D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */,
 				D395D1442B443C91006502B7 /* DNFBitBitTTF.ttf in Resources */,
+				D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */,
 				D31399572B3E95DB0065AF57 /* Preview Assets.xcassets in Resources */,
 				D31399542B3E95DB0065AF57 /* Assets.xcassets in Resources */,
 				D395D1402B43F69B006502B7 /* Localizable.xcstrings in Resources */,

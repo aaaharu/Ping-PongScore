@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import AVFoundation
 
 struct Background<Content: View>: View {
     private var content: Content
@@ -19,6 +20,15 @@ struct Background<Content: View>: View {
         Color.white
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .overlay(content)
+    }
+}
+
+class PlayViewModel {
+    private var audioPlayer: AVAudioPlayer!
+    func play() {
+        let sound = Bundle.main.path(forResource: "pingpong", ofType: "mp3")
+        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        self.audioPlayer.play()
     }
 }
 
@@ -44,8 +54,10 @@ struct StrokeText: View {
 
 struct NewGame: View {
     
+    let vm = PlayViewModel()
+    
+    @State private var moveToScoreBoard = false
     @State private var keyboardHeight: CGFloat = 0
-
     @State private var showYellowOutline = true
 
     // 서비스 버튼의 위치(왼쪽 서브)
@@ -60,8 +72,11 @@ struct NewGame: View {
     let newX: CGFloat = 0.21
     let newY: CGFloat = 0.25
     
-    @State var name: String = ""
-    @State var nameCount: Int = 0
+    @State var playerOneName: String = ""
+    @State var playerTwoName: String = ""
+    @State var playerOnenameCount: Int = 0
+    @State var playerTwonameCount: Int = 0
+    @State var serviceRight: Int = 0
     
     var body: some View {
         
@@ -105,8 +120,10 @@ struct NewGame: View {
                     .font(.custom("DungGeunMo", size: 40))
                     .offset(y: UIScreen.main.bounds.height * 0.10)
                 
-                // 서비스 이미지
+                // 서브권 버튼
                 Button(action: {
+                    serviceRight = serviceRight == 0 ? 1 : 0
+                    
                     showYellowOutline.toggle()
                     if offsetX == originalX && offsetY == originalY {
                         // 서브를 오른쪽으로 옮긴다.
@@ -155,39 +172,39 @@ struct NewGame: View {
                            height: UIScreen.main.bounds.height * 0.13)
                     .offset(x: UIScreen.main.bounds.width * -0.2, y: UIScreen.main.bounds.height * 0.42)
                     .foregroundStyle(.white)
-                    .padding(.bottom, keyboardHeight) // 키보드 높이만큼 패딩 적용.
-                    .animation(.default, value: keyboardHeight)
+//                    .padding(.bottom, keyboardHeight) // 키보드 높이만큼 패딩 적용.
+//                    .animation(.default, value: keyboardHeight)
                     .onAppear{
                         // 노티 : 키보드가 나타날 때 키보드 높이 값을 전송하여 패딩을 적용함
                         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                             guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-                                          self.keyboardHeight = keyboardFrame.height
+                            self.keyboardHeight = keyboardFrame.height
                         }
                         // 노티 : 키보드가 숨겨질 때 키보드 높이를 0으로 전송하여 원상복귀
                         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                                    self.keyboardHeight = 0
-                                }
+                            self.keyboardHeight = 0
+                        }
                         
                     }
                 
                 // 텍스트필드
-                TextField("Enter your name", text: $name){
+                TextField("Player1", text: $playerOneName){
                     UIApplication.shared.endEditing() // 입력을 마치면 키보드가 내려감
-                   
+                    
                 }
-                .onReceive(Just(name), perform: { _ in
+                .onReceive(Just(playerOneName), perform: { _ in
                     limitText()
-                    nameCount = name.count
+                    playerOnenameCount = playerOneName.count
                 })
                 .foregroundStyle(.black)
                 .background(Color(uiColor: .systemBackground))
                 .frame(width: UIScreen.main.bounds.width * 0.23,
                        height: UIScreen.main.bounds.height * 0.13)
-                .offset(x: UIScreen.main.bounds.width * -0.17, y: UIScreen.main.bounds.height * 0.42)
-            
+                .offset(x: UIScreen.main.bounds.width * -0.21, y: UIScreen.main.bounds.height * 0.42)
+                
                 // 글자 수 표시
                 Label{
-                    Text("\(nameCount)/10")
+                    Text("\(playerOnenameCount)/10")
                         .foregroundStyle(Color.white)
                 } icon: {
                     
@@ -195,7 +212,17 @@ struct NewGame: View {
                 .frame(width: UIScreen.main.bounds.width * 0.23,
                        height: UIScreen.main.bounds.height * 0.13)
                 .offset(x: UIScreen.main.bounds.width * -0.07, y: UIScreen.main.bounds.height * 0.52)
-        
+                
+                
+                // 체인지 버튼
+                Button(action: {
+                    // name 위치 바꾸기.
+                    (playerOneName, playerTwoName) = (playerTwoName, playerOneName)
+                    
+                }, label: {
+                    Image("change")
+                })
+                .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.42)
                 
                 // 흰 사각형(오)
                 Rectangle()
@@ -228,7 +255,75 @@ struct NewGame: View {
                     .offset(x: UIScreen.main.bounds.width * 0.2, y: UIScreen.main.bounds.height * 0.42)
                     .foregroundStyle(.white)
                 
-            
+                     // 키보드 높이만큼 패딩 적용.
+//                    .animation(.default, value: keyboardHeight)
+                    .onAppear{
+                        // 노티 : 키보드가 나타날 때 키보드 높이 값을 전송하여 패딩을 적용함
+                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                            guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+                            self.keyboardHeight = keyboardFrame.height
+                        }
+                        // 노티 : 키보드가 숨겨질 때 키보드 높이를 0으로 전송하여 원상복귀
+                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                            self.keyboardHeight = 0
+                        }
+                        
+                    }
+                
+                // 텍스트필드
+                TextField("Player2", text: $playerTwoName){
+                    UIApplication.shared.endEditing() // 입력을 마치면 키보드가 내려감
+                    
+                }
+                .onReceive(Just(playerTwoName), perform: { _ in
+                    limitText()
+                    playerTwonameCount = playerTwoName.count
+                })
+                .foregroundStyle(.black)
+                .background(Color(uiColor: .systemBackground))
+                .frame(width: UIScreen.main.bounds.width * 0.23,
+                       height: UIScreen.main.bounds.height * 0.13)
+                .offset(x: UIScreen.main.bounds.width * 0.2, y: UIScreen.main.bounds.height * 0.42)
+                
+                // 글자 수 표시
+                Label{
+                    Text("\(playerTwonameCount)/10")
+                        .foregroundStyle(Color.white)
+                } icon: {
+                    
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.23,
+                       height: UIScreen.main.bounds.height * 0.13)
+                .offset(x: UIScreen.main.bounds.width * 0.33, y: UIScreen.main.bounds.height * 0.52)
+                
+                // play 버튼
+                Button(action: {
+                    self.vm.play()
+                    moveToScoreBoard = true
+                }, label: {
+                    Text("Play Game")
+                        .font(.custom("DungGeunMo", size: 40))
+                        .foregroundStyle(.white)
+                    
+
+                })
+                    .background(
+                        RoundedRectangle(cornerRadius: 30)
+                            .shadow(color: Color(red: 0/255, green: 0/255, blue: 0.25/255).opacity(0.2), radius: 0.3, x: 2, y: 2)
+                            .foregroundStyle(Color(red: 250/255, green: 54/255, blue: 42/255))
+                            .frame(width: UIScreen.main.bounds.width * 0.34,
+                                   height: UIScreen.main.bounds.height * 0.17)
+                    )
+                    .frame(width: UIScreen.main.bounds.width * 0.23,
+                           height: UIScreen.main.bounds.height * 0.13)
+                    .offset(x: UIScreen.main.bounds.width * 0.0, y: UIScreen.main.bounds.height * 0.73)
+                    .padding(.bottom, keyboardHeight) // 키보드 높이만큼 패딩 적용.
+                    .animation(.default, value: keyboardHeight)
+                    .navigationDestination(isPresented: $moveToScoreBoard, destination: {
+                        ScoreBoard(playerOneName: $playerOneName,
+                                   playerTwoName: $playerTwoName, serviceRight: $serviceRight)
+                    })
+                    
             }.onTapGesture {
                 self.endEditing()
             }
@@ -239,8 +334,8 @@ struct NewGame: View {
        }
     
     private func limitText() {
-        if name.count > 10 {
-            name = String(name.prefix(10))
+        if playerOneName.count > 10 {
+            playerOneName = String(playerOneName.prefix(10))
         }
     }
 }

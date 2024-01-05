@@ -34,6 +34,9 @@ class ScoreBoardVM : ObservableObject {
     
     @Published var userOneText : Int = 0
     
+ 
+
+    
     var subscriptions : Set<AnyCancellable> = Set()
     
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
@@ -94,6 +97,10 @@ class ScoreBoardVM : ObservableObject {
 struct ScoreBoard: View {
     
     @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
+    
+    @Binding var playerOneName: String
+    @Binding var playerTwoName: String
+    @Binding var serviceRight: Int
     
     @State private var userOneText = 0 {
         didSet {
@@ -451,7 +458,7 @@ struct ScoreBoard: View {
 
 
 #Preview {
-    ScoreBoard()
+    ScoreBoard(playerOneName: .constant("Player 1"), playerTwoName: .constant("Player 2"), serviceRight: .constant(0))
 }
 
 
