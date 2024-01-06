@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%lld" : {
 
     },
@@ -26,6 +29,9 @@
 
     },
     "Score Record" : {
+
+    },
+    "Serve" : {
 
     },
     "Victory" : {
