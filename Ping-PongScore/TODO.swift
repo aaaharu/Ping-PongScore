@@ -7,5 +7,4 @@
 
 import Foundation
 
-// 서브 권이 맨 처음 언제인지 표시하기!
 

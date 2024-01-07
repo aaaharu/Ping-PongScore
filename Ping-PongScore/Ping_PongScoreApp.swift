@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Ping_PongScoreApp: App {
+    
+    
     var body: some Scene {
         WindowGroup {
             OpeningView()
+
         }
     }
 }
