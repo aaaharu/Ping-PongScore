@@ -141,7 +141,7 @@ struct ScoreBoard: View {
     }
     
     // 플레이어 원이 서브권을 가질 때
-    @State private var isUserOneServing = false {
+    @State private var isUserOneServing = true {
         didSet {
             print("userOneServing: \(isUserOneServing)")
         }
@@ -157,7 +157,7 @@ struct ScoreBoard: View {
     }
     @State private var playerTwoSetScore = 0 {
         didSet {
-            if playerTwoScore == 3 {
+            if playerTwoSetScore == 3 {
                 winSetScore()
             }
         }
@@ -166,7 +166,11 @@ struct ScoreBoard: View {
     @State private var gameOver = false
     
     @State private var winPlayerOne = false
-    @State private var winPlayerTwo = false
+    @State private var winPlayerTwo = false {
+        didSet {
+                print(#fileID, #function, #line, "- winplayerTwo: \(winPlayerTwo)")
+        }
+    }
     @State private var takenCrownWinner: CGFloat = 0.0
     
     
@@ -189,7 +193,7 @@ struct ScoreBoard: View {
                             .scaledToFit()
                     })
                     .frame(width: 50, height: 100)
-                    .offset(x: UIScreen.main.bounds.width * -0.43, y: UIScreen.main.bounds.height * 0.12)
+                    .offset(x: UIScreen.main.bounds.width * -0.43, y: UIScreen.main.bounds.height * -0.07)
                     .navigationDestination(isPresented: $moveToHome, destination: {
                         OpeningView()
                     }).navigationBarBackButtonHidden()
@@ -199,7 +203,7 @@ struct ScoreBoard: View {
                         .foregroundStyle(.black)
                         .bold()
                         .font(.system(size: 35, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.12)
+                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * -0.07)
                     
                     ZStack {  Rectangle()
                             .clipShape(
@@ -212,7 +216,7 @@ struct ScoreBoard: View {
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.23, height: UIScreen.main.bounds.height * 0.72)
                             .foregroundColor(.black)
-                            .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.55)
+                            .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.35)
                         
                         
                         let color: Color = (playerOneScore % 5 == 0 && playerOneScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
@@ -221,7 +225,7 @@ struct ScoreBoard: View {
                             .foregroundStyle(color)
                             .bold()
                             .font(.system(size: 150, weight:.bold, design: .default))
-                            .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.55)
+                            .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.35)
                     }.onTapGesture {
                         addUserOneScore()
                     }.rotation3DEffect(Angle(degrees: flipDegreesUserOne), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
@@ -254,7 +258,7 @@ struct ScoreBoard: View {
                     Text(isUserOneServing ? "Serve" : "")
                         .foregroundStyle(.white)
                         .font(.system(size: 40, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.83)
+                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.63)
                     
                     ZStack {
                         // 세트 스코어
@@ -269,12 +273,15 @@ struct ScoreBoard: View {
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
                             .foregroundColor(.black)
-                            .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.735)
+                            .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.54)
+                       
+                        let playerOneSetColor: Color = (playerOneSetScore % 2 == 0 && playerOneSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
+                        
                         Text("\(playerOneSetScore)")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(playerOneSetColor)
                             .bold()
                             .font(.system(size: 110, weight:.bold, design: .default))
-                            .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.735)
+                            .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.54)
                     }.onTapGesture {
                         addUserOneSetScore()
                     }.rotation3DEffect(Angle(degrees: flipDegreesUserOneSet), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
@@ -305,7 +312,7 @@ struct ScoreBoard: View {
                         Image("win")
                             .offset(
                                 x: UIScreen.main.bounds.width * takenCrownWinner,
-                                y: UIScreen.main.bounds.height * 0.5
+                                y: UIScreen.main.bounds.height * 0.32
                             )
                     }
                     
@@ -331,7 +338,7 @@ struct ScoreBoard: View {
                             .scaledToFit()
                     })
                     .frame(width: 60, height: 60)
-                    .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.42)
+                    .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.32)
                     
                     
                     
@@ -340,7 +347,7 @@ struct ScoreBoard: View {
                         .foregroundStyle(.black)
                         .bold()
                         .font(.system(size: 35, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.12)
+                        .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * -0.07)
                     ZStack {
                         Rectangle()
                             .clipShape(
@@ -353,14 +360,14 @@ struct ScoreBoard: View {
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.23, height: UIScreen.main.bounds.height * 0.72)
                             .foregroundColor(.black)
-                            .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.55)
+                            .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.35)
                             .rotation3DEffect(Angle(degrees: flipDegreesUserTwo), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
                         
                         // 서브권
                         Text(isUserOneServing ? "" : "Serve")
                             .foregroundStyle(.white)
                             .font(.system(size: 40, weight:.bold, design: .default))
-                            .offset(x: UIScreen.main.bounds.width * 0.301, y: UIScreen.main.bounds.height * 0.83)
+                            .offset(x: UIScreen.main.bounds.width * 0.301, y: UIScreen.main.bounds.height * 0.6)
                         
                         let playerTwoColor: Color = (playerTwoScore % 5 == 0 && playerTwoScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
                         
@@ -368,7 +375,7 @@ struct ScoreBoard: View {
                             .foregroundStyle(playerTwoColor)
                             .bold()
                             .font(.system(size: 130, weight:.bold, design: .default))
-                            .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.55)
+                            .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.35)
                     }
                 }.onTapGesture {
                     addUserTwoScore()
@@ -410,12 +417,15 @@ struct ScoreBoard: View {
                         )
                         .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
                         .foregroundColor(.black)
-                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.03)
+                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.23)
+                    
+                    let playerTwoSetColor: Color = (playerTwoSetScore % 2 == 0 && playerTwoSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
+                    
                     Text("\(playerTwoSetScore)")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(playerTwoSetColor)
                         .bold()
                         .font(.system(size: 110, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.48)
+                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.23)
                 }.onTapGesture {
                     addUserTwoSetScore()
                     //                        viewModel.sayScore(score: 10)
@@ -683,16 +693,9 @@ struct ScoreBoard: View {
                 if playerOneScore > playerTwoScore {
                     playerOneSetScore += 1
                     print(#fileID, #function, #line, "- 듀스에서 userOne이 이겼습니다.")
+        
                     
-                    // 이겼다 왕관 표시.
-                    winPlayerOne = true
-                    takenCrownWinner = 0.12
-                    
-                    
-                    
-                    // userDefaults에 스코어 저장.
-                    let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
-                    saveScore(currentScore)
+               
                     
                 } else {
                     playerTwoSetScore += 1
@@ -770,11 +773,21 @@ struct ScoreBoard: View {
         print(#fileID, #function, #line, "- <# 주석 #>")
         
         if playerOneSetScore > playerTwoSetScore {// 이겼다 왕관 표시.
+                print(#fileID, #function, #line, "- playerOne이 경기에서 우승했습니다")
             winPlayerOne = true
             takenCrownWinner = -0.12
+            
+            // userDefaults에 스코어 저장.
+            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
+            saveScore(currentScore)
         } else if playerTwoSetScore > playerOneSetScore {
+                print(#fileID, #function, #line, "- playerTwo가 경기에서 우승했습니다")
             winPlayerTwo = true
             takenCrownWinner = 0.12
+            
+            // userDefaults에 스코어 저장.
+            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
+            saveScore(currentScore)
         }
         
     }
