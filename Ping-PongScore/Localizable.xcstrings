@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "%@" : {
+
+    },
     "%lld" : {
 
     },
@@ -28,7 +31,7 @@
     "Player2" : {
 
     },
-    "Score Record" : {
+    "Score \nRecord" : {
 
     },
     "Serve" : {

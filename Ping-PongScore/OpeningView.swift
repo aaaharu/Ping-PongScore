@@ -12,6 +12,7 @@ struct OpeningView: View {
     
     @State private var moveToNewGame = false
     @State private var moveToLastGame = false
+    @State private var moveToScoreRecord = false
     
     var body: some View {
         
@@ -141,12 +142,52 @@ struct OpeningView: View {
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
                     }
                     
-                    Button("Score Record") {
-                        moveToLastGame = true
+                    VStack(spacing: 0) {
+                        
+                        ZStack {
+                            // 빨간판
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.40)
+                                .foregroundStyle(Color(red: 240/255, green: 54/255, blue: 42/255))
+                                .clipShape(
+                                    .rect(
+                                        topLeadingRadius: 40,
+                                        bottomLeadingRadius: 0,
+                                        bottomTrailingRadius: 0,
+                                        topTrailingRadius: 40
+                                    )
+                                )
+                            Button("Score \nRecord") {
+                                moveToScoreRecord = true
+                            }    .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                                .contentShape(Rectangle())
+                                .backgroundStyle(.clear)
+                                .padding(0)
+                                .layoutPriority(1)
+                                .font(.custom("DungGeunMo", size: 40))
+                                .navigationDestination(isPresented: $moveToScoreRecord, destination: {
+                                    ScoreRecord()
+                                }).navigationBarBackButtonHidden()
+                        }
+                        // 빨간판 밑
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width * 0.17, height:  UIScreen.main.bounds.height * 0.1)
+                        
+                            .foregroundStyle(Color(red: 211/255, green: 165/255, blue: 140/255))
+                            .clipShape(
+                                .rect(
+                                    topLeadingRadius: -40,
+                                    bottomLeadingRadius: 50,
+                                    bottomTrailingRadius: 50,
+                                    topTrailingRadius: -40
+                                )
+                            )
+                        // 탁구 막대바
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
+                        
+                            .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
                     }
-                    .foregroundStyle(.black)
-                    .backgroundStyle(.red)
-                    .buttonStyle(.bordered)
                     
                     
                     

@@ -11,7 +11,8 @@ import Foundation
 import NaturalLanguage
 
 
-struct PlayerScore: Codable {
+struct PlayerScore: Codable, Identifiable {
+    var id = UUID()  // UUID를 사용하여 각 인스턴스가 고유하게 식별되도록 함.
     var winnerName: String
     var player: String
     var winnerScore: Int
@@ -42,9 +43,7 @@ import Combine
 class ScoreBoardVM : ObservableObject {
     
     @Published var userOneText : Int = 0
-    
-    
-    
+    @Published var scores: [PlayerScore] = []
     
     var subscriptions : Set<AnyCancellable> = Set()
     
@@ -56,6 +55,9 @@ class ScoreBoardVM : ObservableObject {
             .sink(receiveValue: { score in
                 
             }).store(in: &subscriptions)
+        
+        loadScores()
+        
     }
     
     func sayScore(score: Int){
@@ -101,7 +103,27 @@ class ScoreBoardVM : ObservableObject {
         }
         
         return language
-    }}
+    }
+    
+    func saveScore(_ score: PlayerScore) {
+            print(#fileID, #function, #line, "- <# 주석 #>")
+            scores.append(score)
+            if let encoded = try? JSONEncoder().encode(scores) {
+                UserDefaults.standard.set(encoded, forKey: "SavedScores")
+            }
+        }
+
+    func loadScores() {
+        if let savedScores = UserDefaults.standard.object(forKey: "SavedScores") as? Data {
+            if let decodedScores = try? JSONDecoder().decode([PlayerScore].self, from: savedScores) {
+                self.scores = decodedScores
+            }
+        }
+    }
+    
+    
+    
+}
 
 struct ScoreBoard: View {
     
@@ -183,10 +205,7 @@ struct ScoreBoard: View {
                     // 홈 버튼
                     
                     Button(action: {
-                        
-                        
-                        
-                        // 점수 위치 바꾸기
+                        moveToHome = true
                     }, label: {
                         Image("home")
                             .resizable()
@@ -258,7 +277,7 @@ struct ScoreBoard: View {
                     Text(isUserOneServing ? "Serve" : "")
                         .foregroundStyle(.white)
                         .font(.system(size: 40, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.63)
+                        .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.62)
                     
                     ZStack {
                         // 세트 스코어
@@ -465,9 +484,7 @@ struct ScoreBoard: View {
             .onAppear {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
-            .onDisappear {
-                UIApplication.shared.isIdleTimerDisabled = false
-            }
+          
             
         }
     }
@@ -704,7 +721,7 @@ struct ScoreBoard: View {
                     winPlayerTwo = true
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerTwoName, player: playerOneName, winnerScore: playerTwoScore, playerScore: playerOneScore, date: Date.now)
-                    saveScore(currentScore)
+                    viewModel.saveScore(currentScore)
                 }
                 resetGame()
             }
@@ -722,7 +739,7 @@ struct ScoreBoard: View {
                     
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
-                    saveScore(currentScore)
+                    viewModel.saveScore(currentScore)
                 } else {
                     playerTwoSetScore += 1
                     print(#fileID, #function, #line, "- userTwo가 이겼습니다.")
@@ -731,7 +748,7 @@ struct ScoreBoard: View {
                     
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerTwoName, player: playerOneName, winnerScore: playerTwoScore, playerScore: playerOneScore, date: Date.now)
-                    saveScore(currentScore)
+                    viewModel.saveScore(currentScore)
                 }
                 resetGame()
             } else if playerOneScore == 10 && playerTwoScore == 10 {
@@ -752,23 +769,7 @@ struct ScoreBoard: View {
         gameOver = false
     }
     
-    fileprivate func saveScore(_ score: PlayerScore) {
-        var scores = loadScores()
-        scores.append(score)
-        if let encoded = try? JSONEncoder().encode(scores) {
-            UserDefaults.standard.set(encoded, forKey: "SavedScores")
-        }
-    }
-    
-    func loadScores() -> [PlayerScore] {
-        if let savedScores = UserDefaults.standard.object(forKey: "SavedScores") as? Data {
-            if let decodedScores = try? JSONDecoder().decode([PlayerScore].self, from: savedScores) {
-                return decodedScores
-            }
-        }
-        return []
-    }
-    
+ 
     fileprivate func winSetScore() {
         print(#fileID, #function, #line, "- <# 주석 #>")
         
@@ -779,7 +780,8 @@ struct ScoreBoard: View {
             
             // userDefaults에 스코어 저장.
             let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
-            saveScore(currentScore)
+            viewModel.saveScore(currentScore)
+            
         } else if playerTwoSetScore > playerOneSetScore {
                 print(#fileID, #function, #line, "- playerTwo가 경기에서 우승했습니다")
             winPlayerTwo = true
@@ -787,7 +789,7 @@ struct ScoreBoard: View {
             
             // userDefaults에 스코어 저장.
             let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
-            saveScore(currentScore)
+            viewModel.saveScore(currentScore)
         }
         
     }
