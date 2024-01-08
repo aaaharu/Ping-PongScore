@@ -2,10 +2,27 @@ import SwiftUI
 
 struct ScoreRecord: View {
     @ObservedObject var viewModel = ScoreBoardVM()
-    
+    @State private var moveToHome = false
+
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all) // 전체 뷰의 배경색을 검은색으로 설정
+            
+            // 홈버튼
+            Button(action: {
+                moveToHome = true
+            }, label: {
+                Image("home-white")
+                    .resizable()
+                    .scaledToFit()
+            })
+            .frame(width: 50, height: 100)
+            .offset(x: UIScreen.main.bounds.width * -0.42, y: UIScreen.main.bounds.height * -0.3)
+            .navigationDestination(isPresented: $moveToHome, destination: {
+                OpeningView()
+            }).navigationBarBackButtonHidden(
+            
+            )
             VStack {
                 // New Match
                 HStack {
