@@ -20,6 +20,46 @@ struct PlayerScore: Codable, Identifiable {
     var date: Date
 }
 
+// GameOver Alert View
+struct GameOverView: View {
+    var action: () -> Void
+    
+    var body: some View {
+        ZStack {
+            
+            
+            VStack {
+                StrokeText(text: "End of Game", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                    .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                    .font(.custom("DungGeunMo", size: 30))
+                
+                Divider()
+                    .background(Color.white)
+                    .padding(.horizontal, 30)
+                
+                Spacer()
+                
+                Button(action: {
+                    action()
+                }) {
+                    Text("확인")
+                        .font(.title)
+                        .foregroundColor(.white)
+                }
+                .frame(width: 200, height: 60)
+                .background(Color.blue)
+                .cornerRadius(10)
+                .padding(.bottom, 20)
+            }
+            .padding()
+            .background(Color(red: 255/255, green: 199/255, blue: 0/255))
+            .cornerRadius(20)
+        }.frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.4)
+            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.3)
+            .zIndex(1)
+    }
+}
+
 
 // 가로 방향
 class LandscapeOnlyViewController: UIViewController {
@@ -41,6 +81,7 @@ struct LandscapeOnlyViewControllerWrapper: UIViewControllerRepresentable {
 import Combine
 
 class ScoreBoardVM : ObservableObject {
+    
     
     @Published var userOneText : Int = 0
     @Published var scores: [PlayerScore] = []
@@ -106,13 +147,13 @@ class ScoreBoardVM : ObservableObject {
     }
     
     func saveScore(_ score: PlayerScore) {
-            print(#fileID, #function, #line, "- <# 주석 #>")
-            scores.append(score)
-            if let encoded = try? JSONEncoder().encode(scores) {
-                UserDefaults.standard.set(encoded, forKey: "SavedScores")
-            }
+        print(#fileID, #function, #line, "- <# 주석 #>")
+        scores.append(score)
+        if let encoded = try? JSONEncoder().encode(scores) {
+            UserDefaults.standard.set(encoded, forKey: "SavedScores")
         }
-
+    }
+    
     func loadScores() {
         if let savedScores = UserDefaults.standard.object(forKey: "SavedScores") as? Data {
             if let decodedScores = try? JSONDecoder().decode([PlayerScore].self, from: savedScores) {
@@ -126,6 +167,8 @@ class ScoreBoardVM : ObservableObject {
 }
 
 struct ScoreBoard: View {
+    
+    @State private var isGameOver = false
     
     @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
     
@@ -190,20 +233,28 @@ struct ScoreBoard: View {
     @State private var winPlayerOne = false
     @State private var winPlayerTwo = false {
         didSet {
-                print(#fileID, #function, #line, "- winplayerTwo: \(winPlayerTwo)")
+            print(#fileID, #function, #line, "- winplayerTwo: \(winPlayerTwo)")
         }
     }
     @State private var takenCrownWinner: CGFloat = 0.0
     
     
     var body: some View {
+        
         NavigationStack {
             VStack {
-                
+            
                 
                 ZStack {
-                    // 홈 버튼
                     
+                    // 홈 버튼
+                    if isGameOver {
+                        GameOverView {
+                            // 사용자 정의 뷰가 닫힐 때
+                            isGameOver = false
+                        }
+                        
+                    }
                     Button(action: {
                         moveToHome = true
                     }, label: {
@@ -280,7 +331,7 @@ struct ScoreBoard: View {
                         .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.62)
                     
                     ZStack {
-                        // 세트 스코어
+                        // 플레이어1 세트 스코어
                         Rectangle()
                             .clipShape(
                                 .rect(
@@ -293,7 +344,7 @@ struct ScoreBoard: View {
                             .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
                             .foregroundStyle(.black)
                             .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.54)
-                       
+                        
                         let playerOneSetColor: Color = (playerOneSetScore % 2 == 0 && playerOneSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
                         
                         Text("\(playerOneSetScore)")
@@ -303,29 +354,30 @@ struct ScoreBoard: View {
                             .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.54)
                     }.onTapGesture {
                         addUserOneSetScore()
-                    }.rotation3DEffect(Angle(degrees: flipDegreesUserOneSet), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
-                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                            .onEnded({ value in
-                                if abs(value.translation.width) > abs(value.translation.height) {
-                                    // 수평 이동이 더 클 경우
-                                    if value.translation.width < 0 {
-                                        // 왼쪽으로 드래그
-                                        subtractUserOneSetScore()
-                                    } else {
-                                        // 오른쪽으로 드래그
-                                        addUserOneSetScore()
-                                    }
+                    }
+                    .rotation3DEffect(Angle(degrees: flipDegreesUserOneSet), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
+                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onEnded({ value in
+                            if abs(value.translation.width) > abs(value.translation.height) {
+                                // 수평 이동이 더 클 경우
+                                if value.translation.width < 0 {
+                                    // 왼쪽으로 드래그
+                                    subtractUserOneSetScore()
                                 } else {
-                                    // 수직 이동이 더 클 경우
-                                    if value.translation.height < 0 {
-                                        // 위로 드래그
-                                        addUserOneSetScore()
-                                    } else {
-                                        // 아래로 드래그
-                                        subtractUserOneSetScore()
-                                    }
+                                    // 오른쪽으로 드래그
+                                    addUserOneSetScore()
                                 }
-                            }))
+                            } else {
+                                // 수직 이동이 더 클 경우
+                                if value.translation.height < 0 {
+                                    // 위로 드래그
+                                    addUserOneSetScore()
+                                } else {
+                                    // 아래로 드래그
+                                    subtractUserOneSetScore()
+                                }
+                            }
+                        }))
                     
                     if winPlayerOne || winPlayerTwo {
                         Image("win")
@@ -396,81 +448,87 @@ struct ScoreBoard: View {
                             .font(.system(size: 130, weight:.bold, design: .default))
                             .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.35)
                     }
-                }.onTapGesture {
-                    addUserTwoScore()
-                    //                        viewModel.sayScore(score: 10)
-                }
-                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                    .onEnded({ value in
-                        if abs(value.translation.width) > abs(value.translation.height) {
-                            // 수평 이동이 더 클 경우
-                            if value.translation.width < 0 {
-                                // 왼쪽으로 드래그
-                                subtractUserTwoScore()
+                    
+                    
+                    .onTapGesture {
+                        addUserTwoScore()
+                        //                        viewModel.sayScore(score: 10)
+                    }
+                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onEnded({ value in
+                            if abs(value.translation.width) > abs(value.translation.height) {
+                                // 수평 이동이 더 클 경우
+                                if value.translation.width < 0 {
+                                    // 왼쪽으로 드래그
+                                    subtractUserTwoScore()
+                                } else {
+                                    // 오른쪽으로 드래그
+                                    addUserTwoScore()
+                                }
                             } else {
-                                // 오른쪽으로 드래그
-                                addUserTwoScore()
+                                // 수직 이동이 더 클 경우
+                                if value.translation.height < 0 {
+                                    // 위로 드래그
+                                    addUserTwoScore()
+                                } else {
+                                    // 아래로 드래그
+                                    subtractUserTwoScore()
+                                }
                             }
-                        } else {
-                            // 수직 이동이 더 클 경우
-                            if value.translation.height < 0 {
-                                // 위로 드래그
-                                addUserTwoScore()
-                            } else {
-                                // 아래로 드래그
-                                subtractUserTwoScore()
-                            }
-                        }
-                    }))
-                
-                // 세트 스코어
-                ZStack {
-                    Rectangle()
-                        .clipShape(
-                            .rect(
-                                topLeadingRadius: 10,
-                                bottomLeadingRadius: 10,
-                                bottomTrailingRadius: 10,
-                                topTrailingRadius: 10
+                        }))
+                    
+                    // 플레이어2 세트 스코어
+                    ZStack {
+                        Rectangle()
+                            .clipShape(
+                                .rect(
+                                    topLeadingRadius: 10,
+                                    bottomLeadingRadius: 10,
+                                    bottomTrailingRadius: 10,
+                                    topTrailingRadius: 10
+                                )
                             )
-                        )
-                        .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
-                        .foregroundStyle(.black)
-                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.23)
+                            .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
+                            .foregroundStyle(.black)
+                            .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * 0.54)
+                        
+                        
+                        
+                        let playerTwoSetColor: Color = (playerTwoSetScore % 2 == 0 && playerTwoSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
+                        
+                        Text("\(playerTwoSetScore)")
+                            .foregroundStyle(playerTwoSetColor)
+                            .bold()
+                            .font(.system(size: 110, weight:.bold, design: .default))
+                            .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * 0.54)
+                    }.onTapGesture {
+                        addUserTwoSetScore()
+                        //                        viewModel.sayScore(score: 10)
+                    }
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                            .onEnded({ value in
+                                if abs(value.translation.width) > abs(value.translation.height) {
+                                    // 수평 이동이 더 클 경우
+                                    if value.translation.width < 0 {
+                                        // 왼쪽으로 드래그
+                                        subtractUserTwoSetScore()
+                                    } else {
+                                        // 오른쪽으로 드래그
+                                        addUserTwoSetScore()
+                                    }
+                                } else {
+                                    // 수직 이동이 더 클 경우
+                                    if value.translation.height < 0 {
+                                        // 위로 드래그
+                                        addUserTwoSetScore()
+                                    } else {
+                                        // 아래로 드래그
+                                        subtractUserTwoSetScore()
+                                    }
+                                }
+                            }))
                     
-                    let playerTwoSetColor: Color = (playerTwoSetScore % 2 == 0 && playerTwoSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
-                    
-                    Text("\(playerTwoSetScore)")
-                        .foregroundStyle(playerTwoSetColor)
-                        .bold()
-                        .font(.system(size: 110, weight:.bold, design: .default))
-                        .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.23)
-                }.onTapGesture {
-                    addUserTwoSetScore()
-                    //                        viewModel.sayScore(score: 10)
-                }
-                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                    .onEnded({ value in
-                        if abs(value.translation.width) > abs(value.translation.height) {
-                            // 수평 이동이 더 클 경우
-                            if value.translation.width < 0 {
-                                // 왼쪽으로 드래그
-                                subtractUserTwoSetScore()
-                            } else {
-                                // 오른쪽으로 드래그
-                                addUserTwoSetScore()
-                            }
-                        } else {
-                            // 수직 이동이 더 클 경우
-                            if value.translation.height < 0 {
-                                // 위로 드래그
-                                addUserTwoSetScore()
-                            } else {
-                                // 아래로 드래그
-                                subtractUserTwoSetScore()
-                            }
-                        }
-                    }))
+                }.offset(x: UIScreen.main.bounds.width * 0.01, y: UIScreen.main.bounds.height * -0.3)
                 
                 
             }
@@ -484,7 +542,7 @@ struct ScoreBoard: View {
             .onAppear {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
-          
+            
             
         }
     }
@@ -512,7 +570,7 @@ struct ScoreBoard: View {
     }
     
     fileprivate func addUserOneSetScore() {
-
+        
         playerOneSetScore += 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -557,7 +615,7 @@ struct ScoreBoard: View {
     }
     
     fileprivate func addUserTwoSetScore() {
-
+        
         playerTwoSetScore += 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -612,7 +670,7 @@ struct ScoreBoard: View {
         if playerOneSetScore <= 0 {
             return
         }
-    
+        
         playerOneSetScore -= 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -640,7 +698,7 @@ struct ScoreBoard: View {
             return
         }
         
-    
+        
         playerTwoScore -= 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -710,9 +768,9 @@ struct ScoreBoard: View {
                 if playerOneScore > playerTwoScore {
                     playerOneSetScore += 1
                     print(#fileID, #function, #line, "- 듀스에서 userOne이 이겼습니다.")
-        
                     
-               
+                    
+                    
                     
                 } else {
                     playerTwoSetScore += 1
@@ -769,12 +827,12 @@ struct ScoreBoard: View {
         gameOver = false
     }
     
- 
+    
     fileprivate func winSetScore() {
         print(#fileID, #function, #line, "- <# 주석 #>")
         
         if playerOneSetScore > playerTwoSetScore {// 이겼다 왕관 표시.
-                print(#fileID, #function, #line, "- playerOne이 경기에서 우승했습니다")
+            print(#fileID, #function, #line, "- playerOne이 경기에서 우승했습니다")
             winPlayerOne = true
             takenCrownWinner = -0.12
             
@@ -782,14 +840,24 @@ struct ScoreBoard: View {
             let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
             viewModel.saveScore(currentScore)
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                isGameOver = true
+            }
+            
+            
+            
         } else if playerTwoSetScore > playerOneSetScore {
-                print(#fileID, #function, #line, "- playerTwo가 경기에서 우승했습니다")
+            print(#fileID, #function, #line, "- playerTwo가 경기에서 우승했습니다")
             winPlayerTwo = true
             takenCrownWinner = 0.12
             
             // userDefaults에 스코어 저장.
             let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
             viewModel.saveScore(currentScore)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                isGameOver = true
+            }
         }
         
     }
