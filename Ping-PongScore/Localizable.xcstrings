@@ -4,6 +4,9 @@
     "" : {
 
     },
+    ":" : {
+
+    },
     "%@" : {
 
     },
@@ -31,10 +34,19 @@
     "Player2" : {
 
     },
+    "Players" : {
+
+    },
+    "Score" : {
+
+    },
     "Score \nRecord" : {
 
     },
     "Serve" : {
+
+    },
+    "Time" : {
 
     },
     "Victory" : {

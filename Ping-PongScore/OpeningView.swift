@@ -110,7 +110,7 @@ struct OpeningView: View {
                             }) {
                                 Text("New \nGame")
                                     .font(.custom("DungGeunMo", size: 40))
-                                    .foregroundColor(.yellow)
+                                    .foregroundStyle(.yellow)
                             }
                             .tint(.purple)
                             .padding(0)

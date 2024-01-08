@@ -234,7 +234,7 @@ struct ScoreBoard: View {
                                 )
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.23, height: UIScreen.main.bounds.height * 0.72)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.35)
                         
                         
@@ -291,7 +291,7 @@ struct ScoreBoard: View {
                                 )
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .offset(x: UIScreen.main.bounds.width * -0.12, y: UIScreen.main.bounds.height * 0.54)
                        
                         let playerOneSetColor: Color = (playerOneSetScore % 2 == 0 && playerOneSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
@@ -378,7 +378,7 @@ struct ScoreBoard: View {
                                 )
                             )
                             .frame(width: UIScreen.main.bounds.width * 0.23, height: UIScreen.main.bounds.height * 0.72)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
                             .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.35)
                             .rotation3DEffect(Angle(degrees: flipDegreesUserTwo), axis: (x: 1, y: 0, z: 0), perspective: 0) // 뒤로 넘어가는 효과
                         
@@ -435,7 +435,7 @@ struct ScoreBoard: View {
                             )
                         )
                         .frame(width: UIScreen.main.bounds.width * 0.11, height: UIScreen.main.bounds.height * 0.35)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .offset(x: UIScreen.main.bounds.width * 0.12, y: UIScreen.main.bounds.height * -0.23)
                     
                     let playerTwoSetColor: Color = (playerTwoSetScore % 2 == 0 && playerTwoSetScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white

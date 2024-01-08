@@ -46,7 +46,7 @@ struct StrokeText: View {
                 Text(text).offset(x: -width, y:  width)
                 Text(text).offset(x:  width, y: -width)
             }
-            .foregroundColor(color)
+            .foregroundStyle(color)
             Text(text)
         }
     }
@@ -116,7 +116,7 @@ struct NewGame: View {
                 
                 // New Match
                 StrokeText(text: "New Match", width: 1, color: Color(red: 79/255, green: 79/255, blue: 79/255))
-                    .foregroundColor(Color(red: 255/255, green: 199/255, blue: 0/255))
+                    .foregroundStyle(Color(red: 255/255, green: 199/255, blue: 0/255))
                     .font(.custom("DungGeunMo", size: 40))
                     .offset(y: UIScreen.main.bounds.height * 0.10)
                 

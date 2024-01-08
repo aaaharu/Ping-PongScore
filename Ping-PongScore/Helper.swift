@@ -15,4 +15,7 @@ extension UIApplication {
     }
 }
 
+extension Font {
+    static let dungGeunMo40 = Font.custom("DungGeunMo", size: 40)
+}
 
