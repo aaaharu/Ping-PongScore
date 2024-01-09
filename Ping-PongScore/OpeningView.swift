@@ -66,14 +66,20 @@ struct OpeningView: View {
                                         topTrailingRadius: 40
                                     )
                                 )
-                            Button("Last \nGame") {
-                                moveToLastGame = true
-                            }    .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                            Button(action: {
+                                    moveToLastGame = true
+                            }, label: {
+                                Text("Last \nGame") 
+                                    .font(.custom("DungGeunMo", size: 40))
+                                    .shadow(color: Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.25), radius: 2, x: 2, y: 3)
+                            })
+                              .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
                                 .contentShape(Rectangle())
+                                .foregroundStyle(.black)
                                 .backgroundStyle(.clear)
                                 .padding(0)
                                 .layoutPriority(1)
-                                .font(.custom("DungGeunMo", size: 40))
+                               
                                 .navigationDestination(isPresented: $moveToLastGame, destination: {
                                     LastGame()
                                 }).navigationBarBackButtonHidden()
@@ -110,9 +116,10 @@ struct OpeningView: View {
                             }) {
                                 Text("New \nGame")
                                     .font(.custom("DungGeunMo", size: 40))
-                                    .foregroundStyle(.yellow)
+                                    .foregroundStyle(.white
+                                    )
                             }
-                            .tint(.purple)
+                            .tint(.black)
                             .padding(0)
                             .buttonStyle(.borderedProminent)
                             .contentShape(Rectangle()) // 전체 영역이 클릭 가능하도록
@@ -157,10 +164,15 @@ struct OpeningView: View {
                                         topTrailingRadius: 40
                                     )
                                 )
-                            Button("Score \nRecord") {
+                            Button(action: {
                                 moveToScoreRecord = true
-                            }    .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                        }, label: {
+                            Text("Score \nRecord")
+                                .font(.custom("DungGeunMo", size: 40))
+                                .shadow(color: Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.25), radius: 2, x: 2, y: 3)
+                        })   .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
                                 .contentShape(Rectangle())
+                                .foregroundStyle(.black)
                                 .backgroundStyle(.clear)
                                 .padding(0)
                                 .layoutPriority(1)
