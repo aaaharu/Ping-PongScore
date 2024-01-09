@@ -77,6 +77,7 @@ struct NewGame: View {
     @State var playerOnenameCount: Int = 0
     @State var playerTwonameCount: Int = 0
     @State var serviceRight: Int = 0
+    @State private var moveToHome = false
     
     var body: some View {
         
@@ -84,18 +85,8 @@ struct NewGame: View {
         NavigationStack {
             ZStack(alignment: .top) {
                 
-                // 네비게이션 뒤로가기 기본 값 숨기기.
-                NavigationLink(destination: OpeningView()){
-                    Text("함냐")
-                }.navigationBarBackButtonHidden(true)
                 
-                GeometryReader { gp in     // << consumes all safe space
-                    // all content here
-                }
-                .onTapGesture {
-                    // change state closing any dropdown here
-                    
-                }
+                
                 
                 
                 // 탁구대
@@ -137,6 +128,8 @@ struct NewGame: View {
                 }, label: {
                     Image("service")
                 }).offset(x: UIScreen.main.bounds.width * offsetX, y: UIScreen.main.bounds.height * offsetY)
+                
+                
                 
                 
                 
@@ -295,6 +288,22 @@ struct NewGame: View {
                 .frame(width: UIScreen.main.bounds.width * 0.23,
                        height: UIScreen.main.bounds.height * 0.13)
                 .offset(x: UIScreen.main.bounds.width * 0.33, y: UIScreen.main.bounds.height * 0.52)
+                
+                // 홈버튼
+                Button(action: {
+                    moveToHome = true
+                }, label: {
+                    Image("home-white")
+                        .resizable()
+                        .scaledToFit()
+                })
+                .frame(width: 50, height: 100)
+                .offset(x: UIScreen.main.bounds.width * -0.39, y: UIScreen.main.bounds.height * 0)
+                .navigationDestination(isPresented: $moveToHome, destination: {
+                    OpeningView()
+                }).navigationBarBackButtonHidden(
+                
+                )
                 
                 // play 버튼
                 Button(action: {
