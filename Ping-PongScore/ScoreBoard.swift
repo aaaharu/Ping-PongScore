@@ -22,7 +22,11 @@ struct PlayerScore: Codable, Identifiable {
 
 // GameOver Alert View
 struct GameOverView: View {
-    var action: () -> Void
+    @Binding var shouldResetScore: Bool
+    @State var moveToNewGame: Bool = false
+    var dismissAction: () -> Void
+    var navToNewPlayerView: (() -> Void)?
+    
     
     var body: some View {
         ZStack {
@@ -40,23 +44,52 @@ struct GameOverView: View {
                 Spacer()
                 
                 Button(action: {
-                    action()
+                    shouldResetScore = true
+                    dismissAction()
                 }) {
-                    Text("확인")
-                        .font(.title)
-                        .foregroundColor(.white)
+                    StrokeText(text: "Play with Same Player", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                        .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                        .font(.custom("DungGeunMo", size: 25))
                 }
-                .frame(width: 200, height: 60)
+                .frame(width: 320, height: 60)
                 .background(Color.blue)
                 .cornerRadius(10)
+                .padding(.bottom, 5)
+                
+                Button(action: {
+                
+              
+                    moveToNewGame = true
+                    
+                }) {
+                    StrokeText(text: "Play with New Player", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                        .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                        .font(.custom("DungGeunMo", size: 25))
+                }
+                
+                
+                .frame(width: 320, height: 60)
+                .background(Color.red)
+                .cornerRadius(10)
+                .navigationDestination(isPresented: $moveToNewGame, destination: {
+                    NewGame()
+                }).navigationBarBackButtonHidden()
                 .padding(.bottom, 20)
             }
             .padding()
             .background(Color(red: 255/255, green: 199/255, blue: 0/255))
             .cornerRadius(20)
-        }.frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.4)
-            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.3)
+            .overlay( /// apply a rounded border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(.white, lineWidth: 5)
+            )
+            
+        }
+            .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.55)
+            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.35)
+
             .zIndex(1)
+            
     }
 }
 
@@ -168,6 +201,7 @@ class ScoreBoardVM : ObservableObject {
 
 struct ScoreBoard: View {
     
+    @State private var shouldResetScore = false
     @State private var isGameOver = false
     
     @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
@@ -247,14 +281,19 @@ struct ScoreBoard: View {
                 
                 ZStack {
                     
-                    // 홈 버튼
+                    // 게임 끝난 후 Alert View
                     if isGameOver {
-                        GameOverView {
-                            // 사용자 정의 뷰가 닫힐 때
-                            isGameOver = false
-                        }
-                        
+                      GameOverView(shouldResetScore: $shouldResetScore,
+                                   dismissAction: {
+                          isGameOver = false
+                      },
+                                   navToNewPlayerView: {
+                         
+                      })
                     }
+                    
+
+                    // 홈 버튼
                     Button(action: {
                         moveToHome = true
                     }, label: {
@@ -529,9 +568,13 @@ struct ScoreBoard: View {
                             }))
                     
                 }.offset(x: UIScreen.main.bounds.width * 0.01, y: UIScreen.main.bounds.height * -0.3)
-                
-                
+                    .onChange(of: shouldResetScore) { newValue in
+                        if newValue {
+                            resetGame()
+                        }
+                    }
             }
+            
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 72/255, green: 127/255, blue: 233/255))
@@ -820,8 +863,11 @@ struct ScoreBoard: View {
     }
     
     fileprivate func resetGame() {
+            print(#fileID, #function, #line, "- <# 주석 #>")
         playerOneScore = 0
         playerTwoScore = 0
+        playerOneSetScore = 0
+        playerTwoSetScore = 0
         allScore = 0
         deuce = false
         gameOver = false
@@ -855,7 +901,7 @@ struct ScoreBoard: View {
             let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
             viewModel.saveScore(currentScore)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 isGameOver = true
             }
         }
