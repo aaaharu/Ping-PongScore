@@ -15,14 +15,19 @@
 		D313996B2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */; };
 		D313996D2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */; };
 		D31A13882B4A9A1400F011EA /* ScoreRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31A13872B4A9A1400F011EA /* ScoreRecord.swift */; };
+		D355B8662B4D341B00F77A83 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D355B8652B4D341B00F77A83 /* StoreKit.framework */; };
+		D355B8682B4D346900F77A83 /* StoreSetting.storekit in Resources */ = {isa = PBXBuildFile; fileRef = D355B8672B4D346900F77A83 /* StoreSetting.storekit */; };
+		D355B86A2B4D3A3E00F77A83 /* InAppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355B8692B4D3A3E00F77A83 /* InAppService.swift */; };
+		D355B86C2B4D3DCD00F77A83 /* PingPongAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355B86B2B4D3DCD00F77A83 /* PingPongAppDelegate.swift */; };
+		D355B86E2B4D3F5700F77A83 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355B86D2B4D3F5700F77A83 /* PurchaseView.swift */; };
 		D39276AD2B4690C400A347D2 /* NewGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39276AC2B4690C400A347D2 /* NewGame.swift */; };
 		D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13B2B433B1D006502B7 /* OpeningView.swift */; };
-		D395D13E2B433CF4006502B7 /* LastGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395D13D2B433CF4006502B7 /* LastGame.swift */; };
 		D395D1402B43F69B006502B7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D395D13F2B43F69B006502B7 /* Localizable.xcstrings */; };
 		D395D1442B443C91006502B7 /* DNFBitBitTTF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */; };
 		D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
+		D3A160D92B4D15CC003CA379 /* winSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3A160D82B4D15CB003CA379 /* winSound.mp3 */; };
 		D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3ED4E142B472FF50043FF68 /* Helper.swift */; };
 		D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3ED4E162B47CD540043FF68 /* pingpong.mp3 */; };
 /* End PBXBuildFile section */
@@ -56,13 +61,18 @@
 		D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITests.swift; sourceTree = "<group>"; };
 		D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ping_PongScoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D31A13872B4A9A1400F011EA /* ScoreRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRecord.swift; sourceTree = "<group>"; };
+		D355B8652B4D341B00F77A83 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D355B8672B4D346900F77A83 /* StoreSetting.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreSetting.storekit; sourceTree = "<group>"; };
+		D355B8692B4D3A3E00F77A83 /* InAppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppService.swift; sourceTree = "<group>"; };
+		D355B86B2B4D3DCD00F77A83 /* PingPongAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PingPongAppDelegate.swift; sourceTree = "<group>"; };
+		D355B86D2B4D3F5700F77A83 /* PurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		D39276AC2B4690C400A347D2 /* NewGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGame.swift; sourceTree = "<group>"; };
 		D395D13B2B433B1D006502B7 /* OpeningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningView.swift; sourceTree = "<group>"; };
-		D395D13D2B433CF4006502B7 /* LastGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastGame.swift; sourceTree = "<group>"; };
 		D395D13F2B43F69B006502B7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DNFBitBitTTF.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1432B443C91006502B7 /* DungGeunMo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DungGeunMo.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D3A160D82B4D15CB003CA379 /* winSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winSound.mp3; sourceTree = SOURCE_ROOT; };
 		D3ED4E142B472FF50043FF68 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		D3ED4E162B47CD540043FF68 /* pingpong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pingpong.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -72,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D355B8662B4D341B00F77A83 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,11 +106,13 @@
 		D31399432B3E95D90065AF57 = {
 			isa = PBXGroup;
 			children = (
+				D355B8672B4D346900F77A83 /* StoreSetting.storekit */,
 				D395D1412B443C78006502B7 /* Resources */,
 				D313994E2B3E95D90065AF57 /* Ping-PongScore */,
 				D313995F2B3E95DB0065AF57 /* Ping-PongScoreTests */,
 				D31399692B3E95DB0065AF57 /* Ping-PongScoreUITests */,
 				D313994D2B3E95D90065AF57 /* Products */,
+				D355B8642B4D341B00F77A83 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,14 +129,16 @@
 		D313994E2B3E95D90065AF57 /* Ping-PongScore */ = {
 			isa = PBXGroup;
 			children = (
+				D355B8692B4D3A3E00F77A83 /* InAppService.swift */,
+				D355B86B2B4D3DCD00F77A83 /* PingPongAppDelegate.swift */,
 				D395D1462B443D1B006502B7 /* Info.plist */,
 				D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */,
 				D395D13B2B433B1D006502B7 /* OpeningView.swift */,
 				D39276AC2B4690C400A347D2 /* NewGame.swift */,
 				D31399512B3E95D90065AF57 /* ScoreBoard.swift */,
-				D395D13D2B433CF4006502B7 /* LastGame.swift */,
-				D3ED4E142B472FF50043FF68 /* Helper.swift */,
 				D31A13872B4A9A1400F011EA /* ScoreRecord.swift */,
+				D355B86D2B4D3F5700F77A83 /* PurchaseView.swift */,
+				D3ED4E142B472FF50043FF68 /* Helper.swift */,
 				D31399532B3E95DB0065AF57 /* Assets.xcassets */,
 				D31399552B3E95DB0065AF57 /* Preview Content */,
 				D395D13F2B43F69B006502B7 /* Localizable.xcstrings */,
@@ -156,10 +171,19 @@
 			path = "Ping-PongScoreUITests";
 			sourceTree = "<group>";
 		};
+		D355B8642B4D341B00F77A83 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D355B8652B4D341B00F77A83 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D395D1412B443C78006502B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D3ED4E162B47CD540043FF68 /* pingpong.mp3 */,
+				D3A160D82B4D15CB003CA379 /* winSound.mp3 */,
 				D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */,
 				D395D1432B443C91006502B7 /* DungGeunMo.ttf */,
 			);
@@ -274,6 +298,8 @@
 			files = (
 				D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */,
 				D395D1442B443C91006502B7 /* DNFBitBitTTF.ttf in Resources */,
+				D3A160D92B4D15CC003CA379 /* winSound.mp3 in Resources */,
+				D355B8682B4D346900F77A83 /* StoreSetting.storekit in Resources */,
 				D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */,
 				D31399572B3E95DB0065AF57 /* Preview Assets.xcassets in Resources */,
 				D31399542B3E95DB0065AF57 /* Assets.xcassets in Resources */,
@@ -305,11 +331,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D39276AD2B4690C400A347D2 /* NewGame.swift in Sources */,
+				D355B86A2B4D3A3E00F77A83 /* InAppService.swift in Sources */,
 				D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */,
 				D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */,
+				D355B86E2B4D3F5700F77A83 /* PurchaseView.swift in Sources */,
 				D31399502B3E95D90065AF57 /* Ping_PongScoreApp.swift in Sources */,
-				D395D13E2B433CF4006502B7 /* LastGame.swift in Sources */,
 				D395D13C2B433B1D006502B7 /* OpeningView.swift in Sources */,
+				D355B86C2B4D3DCD00F77A83 /* PingPongAppDelegate.swift in Sources */,
 				D31A13882B4A9A1400F011EA /* ScoreRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,12 +512,13 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "EggCompany.Ping-PongScore";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.EggCompany.Ping-PongScore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -518,12 +547,13 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "EggCompany.Ping-PongScore";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.EggCompany.Ping-PongScore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

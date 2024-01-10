@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import UIKit
 
 @main
 struct Ping_PongScoreApp: App {
-    
-    
+
+    @UIApplicationDelegateAdaptor var delegate : PingPongAppDelegate
+    @State private var defaultBool = false
     var body: some Scene {
         WindowGroup {
-            OpeningView()
-
+            OpeningView(loadLastGame: defaultBool
+            )
+//
+//            PurchaseView()
         }
     }
 }

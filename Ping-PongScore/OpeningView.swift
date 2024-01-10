@@ -10,9 +10,15 @@ import UIKit
 
 struct OpeningView: View {
     
+    @State private var defaultName = ""
+    @State private var defaultScore = 0
+    @State private var defaultBool = false
+    
     @State private var moveToNewGame = false
     @State private var moveToLastGame = false
     @State private var moveToScoreRecord = false
+    
+    @State var loadLastGame: Bool
     
     var body: some View {
         
@@ -67,6 +73,7 @@ struct OpeningView: View {
                                     )
                                 )
                             Button(action: {
+                                    loadLastGame = true
                                     moveToLastGame = true
                             }, label: {
                                 Text("Last \nGame") 
@@ -81,7 +88,7 @@ struct OpeningView: View {
                                 .layoutPriority(1)
                                
                                 .navigationDestination(isPresented: $moveToLastGame, destination: {
-                                    LastGame()
+                                    ScoreBoard(playerOneName: $defaultName, playerTwoName: $defaultName, serviceRight: $defaultBool, loadLastGame: $loadLastGame, isUserOneServing: defaultBool)
                                 }).navigationBarBackButtonHidden()
                         }
                         // 빨간판 밑
@@ -217,5 +224,5 @@ struct OpeningView: View {
 
 
 #Preview {
-    OpeningView()
+    OpeningView(loadLastGame: false)
 }

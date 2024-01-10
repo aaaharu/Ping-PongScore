@@ -3,6 +3,8 @@ import SwiftUI
 struct ScoreRecord: View {
     @ObservedObject var viewModel = ScoreBoardVM()
     @State private var moveToHome = false
+    
+    @State private var defaultLastGameBool: Bool = false
 
     var body: some View {
         ZStack {
@@ -19,7 +21,7 @@ struct ScoreRecord: View {
             .frame(width: 50, height: 100)
             .offset(x: UIScreen.main.bounds.width * -0.42, y: UIScreen.main.bounds.height * -0.3)
             .navigationDestination(isPresented: $moveToHome, destination: {
-                OpeningView()
+                OpeningView(loadLastGame: defaultLastGameBool)
             }).navigationBarBackButtonHidden(
             
             )

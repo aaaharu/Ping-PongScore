@@ -194,26 +194,56 @@ class ScoreBoardVM : ObservableObject {
             }
         }
     }
-    
+        
+  
     
     
 }
 
 struct ScoreBoard: View {
     
+    struct GameScores: Codable {
+        var playerOneName: String
+        var playerTwoName: String
+        var playerOneScore: Int
+        var playerTwoScore: Int
+        var playerOneSetScore: Int
+        var playerTwoSetScore: Int
+        var totalScore: Int
+        var servingPlayerOne: Bool
+    }
+    
     @State private var shouldResetScore = false
     @State private var isGameOver = false
+
+    @State private var canSave: Bool = true
+    
     
     @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
+    let soundVM = PlayViewModel()
     
     @State private var moveToHome = false
     
-    @Binding var playerOneName: String
+    @Binding var playerOneName: String {
+        didSet {
+                print(#fileID, #function, #line, "- playerOne의 이름이 바뀌었습니다. \(playerOneName)")
+        }
+    }
     @Binding var playerTwoName: String
-    @Binding var serviceRight: Int
+    @Binding var serviceRight: Bool
+    
+    @Binding var loadLastGame: Bool {
+        didSet {
+                print(#fileID, #function, #line, "- <# 주석 #>")
+//            if loadLastGame == true {
+//                reloadLastGame()
+//            }
+        }
+    }
     
     @State private var playerOneScore = 0 {
         didSet {
+                print(#fileID, #function, #line, "- playerOneScore: \(playerOneScore)")
             winScore()
             
         }
@@ -235,12 +265,13 @@ struct ScoreBoard: View {
         didSet {
             print("총 점수: \(allScore)")
             updateServing()
-            viewModel.sayScore(score: allScore)
+            saveLastGame() // 지난 게임 저장하기
+//            viewModel.sayScore(score: allScore)
         }
     }
     
     // 플레이어 원이 서브권을 가질 때
-    @State private var isUserOneServing = true {
+    @State var isUserOneServing: Bool {
         didSet {
             print("userOneServing: \(isUserOneServing)")
         }
@@ -249,14 +280,18 @@ struct ScoreBoard: View {
     
     @State private var playerOneSetScore = 0 {
         didSet {
+            saveLastGame()
             if playerOneSetScore == 3 {
+                self.soundVM.playWinSound()
                 winSetScore()
             }
         }
     }
     @State private var playerTwoSetScore = 0 {
         didSet {
+            saveLastGame()
             if playerTwoSetScore == 3 {
+                self.soundVM.playWinSound()
                 winSetScore()
             }
         }
@@ -304,7 +339,7 @@ struct ScoreBoard: View {
                     .frame(width: 50, height: 100)
                     .offset(x: UIScreen.main.bounds.width * -0.43, y: UIScreen.main.bounds.height * -0.07)
                     .navigationDestination(isPresented: $moveToHome, destination: {
-                        OpeningView()
+                        OpeningView(loadLastGame: loadLastGame)
                     }).navigationBarBackButtonHidden()
                     
                     // 첫번째 유저 큰 점수판
@@ -568,10 +603,16 @@ struct ScoreBoard: View {
                             }))
                     
                 }.offset(x: UIScreen.main.bounds.width * 0.01, y: UIScreen.main.bounds.height * -0.3)
+                    .onAppear{
+                        if loadLastGame == true {
+                            reloadLastGame()
+                        }
+                    }
                     .onChange(of: shouldResetScore) { newValue in
                         if newValue {
                             resetGame()
                         }
+                    
                     }
             }
             
@@ -582,8 +623,10 @@ struct ScoreBoard: View {
             
             
             // 앱 화면이 안 꺼지게 하기
-            .onAppear {
+            .onAppear { // 뷰가 나타날 때 (viewDidLoad 역할)
                 UIApplication.shared.isIdleTimerDisabled = true
+                
+               
             }
             
             
@@ -591,8 +634,9 @@ struct ScoreBoard: View {
     }
     
     fileprivate func addUserOneScore() {
-        allScore += 1
+        
         playerOneScore += 1
+        allScore += 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
             // Rotate halfway
@@ -636,8 +680,10 @@ struct ScoreBoard: View {
     
     
     fileprivate func addUserTwoScore() {
-        allScore += 1
+       
         playerTwoScore += 1
+        allScore += 1
+        
         
         withAnimation(.easeInOut(duration: 0.25)) {
             // Rotate halfway
@@ -686,8 +732,9 @@ struct ScoreBoard: View {
             return
         }
         
-        allScore -= 1
+        
         playerOneScore -= 1
+        allScore -= 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
             // Rotate halfway in the reverse direction
@@ -743,6 +790,7 @@ struct ScoreBoard: View {
         
         
         playerTwoScore -= 1
+        allScore -= 1
         
         withAnimation(.easeInOut(duration: 0.25)) {
             // Rotate halfway in the reverse direction
@@ -809,30 +857,35 @@ struct ScoreBoard: View {
                 gameOver = true
                 // Deuce resolution
                 if playerOneScore > playerTwoScore {
-                    playerOneSetScore += 1
                     print(#fileID, #function, #line, "- 듀스에서 userOne이 이겼습니다.")
-                    
-                    
-                    
-                    
+                    playerOneSetScore += 1
+                    (playerOneScore, playerTwoScore) = (0, 0)
+
+                   
                 } else {
-                    playerTwoSetScore += 1
                     print(#fileID, #function, #line, "- 듀스에서 userTwo가 이겼습니다.")
+                    playerTwoSetScore += 1
+                    (playerOneScore, playerTwoScore) = (0, 0)
+
+                   
                     // 이겼다 왕관 표시.
                     winPlayerTwo = true
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerTwoName, player: playerOneName, winnerScore: playerTwoScore, playerScore: playerOneScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                 }
-                resetGame()
+        
             }
         } else {
             // Normal play
             if (playerOneScore >= 11 || playerTwoScore >= 11) && abs(playerOneScore - playerTwoScore) >= 2 {
+
                 gameOver = true
                 if playerOneScore > playerTwoScore {
-                    playerOneSetScore += 1
                     print(#fileID, #function, #line, "- userOne이 이겼습니다!")
+                    (playerOneScore, playerTwoScore) = (0, 0)
+                    playerOneSetScore += 1
+                  
                     
                     
                     
@@ -842,8 +895,10 @@ struct ScoreBoard: View {
                     let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                 } else {
-                    playerTwoSetScore += 1
                     print(#fileID, #function, #line, "- userTwo가 이겼습니다.")
+                    playerTwoSetScore += 1
+                    (playerOneScore, playerTwoScore) = (0, 0)
+             
                     
                     
                     
@@ -851,7 +906,7 @@ struct ScoreBoard: View {
                     let currentScore = PlayerScore(winnerName: playerTwoName, player: playerOneName, winnerScore: playerTwoScore, playerScore: playerOneScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                 }
-                resetGame()
+           
             } else if playerOneScore == 10 && playerTwoScore == 10 {
                 // 듀스입니다!
                 deuce = true
@@ -871,6 +926,8 @@ struct ScoreBoard: View {
         allScore = 0
         deuce = false
         gameOver = false
+        winPlayerOne = false
+        winPlayerTwo = false
     }
     
     
@@ -908,14 +965,72 @@ struct ScoreBoard: View {
         
     }
     
+    fileprivate func saveLastGame() {
+        
+        guard canSave == true else { return }
+        
+            print(#fileID, #function, #line, "- playerOne의 이름은 \(playerOneName)입니다.")
+            
+            // 저장할 항목 1. Score: playerOneScore, playerTwoScore,
+            // 2. SetScore playerOneSetScore, playerTwoSetSocre
+            // 3. 총 점수
+            // 4. 서브권
+        
+        let scores = GameScores(playerOneName: self.playerOneName, playerTwoName: self.playerTwoName, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneSetScore: playerOneSetScore, playerTwoSetScore: playerTwoSetScore, totalScore: allScore, servingPlayerOne: isUserOneServing)
+
+        print(#fileID, #function, #line, "- playerOne의 이름이 \(scores.playerOneName)으로 저장되었습니다.")
+            
+            if let encoded = try? JSONEncoder().encode(scores) {
+                UserDefaults.standard.set(encoded, forKey: "SavedLastScores")
+            }
+    }
+    
+    fileprivate func reloadLastGame() {
+            print(#fileID, #function, #line, "- <# 주석 #>")
+        
+        
+        if let savedScores = UserDefaults.standard.object(forKey: "SavedLastScores") as? Data {
+            if let decodedScores = try? JSONDecoder().decode(GameScores.self, from: savedScores) {
+                self.playerOneName = decodedScores.playerOneName
+                self.playerTwoName = decodedScores.playerTwoName
+                self.playerOneScore = decodedScores.playerOneScore
+                self.playerTwoScore = decodedScores.playerTwoScore
+                self.playerOneSetScore = decodedScores.playerOneSetScore
+                self.playerTwoSetScore =
+                decodedScores.playerTwoSetScore
+                self.allScore = decodedScores.totalScore
+                self.isUserOneServing = decodedScores.servingPlayerOne
+                
+                print(#fileID, #function, #line, "- playerOneScore: \(playerOneScore), allScore: \(allScore)")
+                
+                canSave = true
+            }
+            
+        }
+    }
+    
+    
     
 }
 
 
+struct ScoreBoard_Previews: PreviewProvider {
+    // Declare a @State variable for the preview
+
+    static var previews: some View {
+        // Use the state variable as a binding
+        ScoreBoard(playerOneName: .constant("Player 1"), playerTwoName: .constant("Player 2"), serviceRight: .constant(true), loadLastGame: .constant(false), isUserOneServing: true)
+            
+
+    }
+}
+
 
 
 #Preview {
-    ScoreBoard(playerOneName: .constant("Player 1"), playerTwoName: .constant("Player 2"), serviceRight: .constant(0))
+    ScoreBoard(playerOneName: .constant("Player 1"), playerTwoName: .constant("Player 2"), serviceRight: .constant(true), loadLastGame: .constant(false), isUserOneServing: true)
+        .previewInterfaceOrientation(.landscapeLeft)
+
 }
 
 

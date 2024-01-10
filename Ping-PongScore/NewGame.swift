@@ -25,8 +25,13 @@ struct Background<Content: View>: View {
 
 class PlayViewModel {
     private var audioPlayer: AVAudioPlayer!
-    func play() {
+    func playPingPong() {
         let sound = Bundle.main.path(forResource: "pingpong", ofType: "mp3")
+        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        self.audioPlayer.play()
+    }
+    func playWinSound() {
+        let sound = Bundle.main.path(forResource: "winSound", ofType: "mp3")
         self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
         self.audioPlayer.play()
     }
@@ -76,8 +81,12 @@ struct NewGame: View {
     @State var playerTwoName: String = ""
     @State var playerOnenameCount: Int = 0
     @State var playerTwonameCount: Int = 0
-    @State var serviceRight: Int = 0
+    @State var serviceRight: Bool = true
     @State private var moveToHome = false
+    
+    @State private var defaultLoadLastGame: Bool = false
+
+    
     
     var body: some View {
         
@@ -113,7 +122,7 @@ struct NewGame: View {
                 
                 // 서브권 버튼
                 Button(action: {
-                    serviceRight = serviceRight == 0 ? 1 : 0
+                    serviceRight.toggle()
                     
                     showYellowOutline.toggle()
                     if offsetX == originalX && offsetY == originalY {
@@ -300,14 +309,14 @@ struct NewGame: View {
                 .frame(width: 50, height: 100)
                 .offset(x: UIScreen.main.bounds.width * -0.39, y: UIScreen.main.bounds.height * 0)
                 .navigationDestination(isPresented: $moveToHome, destination: {
-                    OpeningView()
+                    OpeningView(loadLastGame: defaultLoadLastGame)
                 }).navigationBarBackButtonHidden(
                 
                 )
                 
                 // play 버튼
                 Button(action: {
-                    self.vm.play()
+                    self.vm.playPingPong()
                     moveToScoreBoard = true
                 }, label: {
                     Text("Play Game")
@@ -330,7 +339,7 @@ struct NewGame: View {
                     .animation(.default, value: keyboardHeight)
                     .navigationDestination(isPresented: $moveToScoreBoard, destination: {
                         ScoreBoard(playerOneName: $playerOneName,
-                                   playerTwoName: $playerTwoName, serviceRight: $serviceRight)
+                                   playerTwoName: $playerTwoName, serviceRight: $serviceRight, loadLastGame: $defaultLoadLastGame, isUserOneServing: serviceRight)
                     })
                     
             }.onTapGesture {
