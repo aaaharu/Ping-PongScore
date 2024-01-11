@@ -26,22 +26,39 @@ struct GameOverView: View {
     @State var moveToNewGame: Bool = false
     var dismissAction: () -> Void
     var navToNewPlayerView: (() -> Void)?
+    @Environment(\.dismiss) var dismiss
+
     
     
     var body: some View {
         ZStack {
             
             
+            
             VStack {
-                StrokeText(text: "End of Game", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
-                    .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
-                    .font(.custom("DungGeunMo", size: 30))
                 
-                Divider()
-                    .background(Color.white)
-                    .padding(.horizontal, 30)
-                
-                Spacer()
+                VStack {
+                    HStack {
+                        
+                        StrokeText(text: "End of Game", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                            .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                            .font(.custom("DungGeunMo", size: 30))
+                        
+                        
+                        
+                        
+                        Button {
+                            print(#fileID, #function, #line, "- <# 주석 #>")
+                            dismiss()
+                        } label: {
+                            Image("exit", bundle: .main)
+                        }
+                        .frame(width: 10, height: 10)
+                        .offset(x: UIScreen.main.bounds.width * 0.20, y: UIScreen.main.bounds.height * -0.1)
+                        
+                    }
+                }
+                .offset(y: UIScreen.main.bounds.height * -0.9)
                 
                 Button(action: {
                     shouldResetScore = true
@@ -89,6 +106,7 @@ struct GameOverView: View {
             .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.35)
 
             .zIndex(1)
+            
             
     }
 }
@@ -316,16 +334,16 @@ struct ScoreBoard: View {
                 
                 ZStack {
                     
-                    // 게임 끝난 후 Alert View
-                    if isGameOver {
-                      GameOverView(shouldResetScore: $shouldResetScore,
-                                   dismissAction: {
-                          isGameOver = false
-                      },
-                                   navToNewPlayerView: {
-                         
-                      })
-                    }
+//                    // 게임 끝난 후 Alert View
+//                    if isGameOver {
+//                      GameOverView(shouldResetScore: $shouldResetScore,
+//                                   dismissAction: {
+//                          isGameOver = false
+//                      },
+//                                   navToNewPlayerView: {
+//                         
+//                      })
+//                    }
                     
 
                     // 홈 버튼
@@ -625,8 +643,12 @@ struct ScoreBoard: View {
             // 앱 화면이 안 꺼지게 하기
             .onAppear { // 뷰가 나타날 때 (viewDidLoad 역할)
                 UIApplication.shared.isIdleTimerDisabled = true
-                
-               
+            }
+            .sheet(isPresented: $gameOver) {
+                GameOverView(shouldResetScore: $shouldResetScore,
+                             dismissAction: {
+                    isGameOver = false
+                })
             }
             
             
