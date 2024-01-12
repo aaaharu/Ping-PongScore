@@ -10,7 +10,9 @@ import UIKit
 
 struct OpeningView: View {
     
-    @State private var defaultName = ""
+    @State private var defaultNameOne = ""
+    @State private var defaultNameTwo = ""
+
     @State private var defaultScore = 0
     @State private var defaultBool = false
     
@@ -88,7 +90,7 @@ struct OpeningView: View {
                                 .layoutPriority(1)
                                
                                 .navigationDestination(isPresented: $moveToLastGame, destination: {
-                                    ScoreBoard(playerOneName: $defaultName, playerTwoName: $defaultName, serviceRight: $defaultBool, loadLastGame: $loadLastGame, isUserOneServing: defaultBool)
+                                    ScoreBoard(playerOneName: $defaultNameOne, playerTwoName: $defaultNameTwo, serviceRight: $defaultBool, loadLastGame: $loadLastGame, isUserOneServing: defaultBool)
                                 }).navigationBarBackButtonHidden()
                         }
                         // 빨간판 밑
