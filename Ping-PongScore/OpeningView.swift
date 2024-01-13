@@ -111,7 +111,9 @@ struct OpeningView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
                         
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
-                    }
+                    }                        
+                    .offset(y: UIScreen.main.bounds.height * 0.02)
+
                     
                     
                     
@@ -157,6 +159,7 @@ struct OpeningView: View {
                         
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
                     }
+                    .offset(y: UIScreen.main.bounds.height * 0.02)
                     
                     VStack(spacing: 0) {
                         
@@ -209,6 +212,7 @@ struct OpeningView: View {
                         
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
                     }
+                    .offset(y: UIScreen.main.bounds.height * 0.02)
                     
                     
                     

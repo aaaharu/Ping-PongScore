@@ -61,7 +61,8 @@ struct ScoreRecord: View {
                 
                 // 리스트
                 List {
-                    ForEach(Array(viewModel.scores.enumerated()), id: \.1.id) { (index, score) in
+                    ForEach(Array(viewModel.scores.sorted { $0.date > $1.date }.enumerated()), id: \.1.id) { (index, score) in
+
                         HStack {
                             Text("\(index + 1)").foregroundStyle(.white)
                                 .padding(.trailing, 50)

@@ -61,6 +61,7 @@ struct NewGame: View {
     
     let vm = PlayViewModel()
     
+    @State private var showWarningText = false
     @State private var moveToScoreBoard = false
     @State private var keyboardHeight: CGFloat = 0
     @State private var showYellowOutline = true
@@ -314,10 +315,24 @@ struct NewGame: View {
                 
                 )
                 
+                // 글자를 입력해주세요.
+                Text("Enter your name!").foregroundStyle(showWarningText ? .white : .clear)
+                    .font(.custom("DungGeunMo", size: 30))
+                    .offset(x: UIScreen.main.bounds.width * 0.0, y: UIScreen.main.bounds.height * 0.26)
+                    
+                
                 // play 버튼
                 Button(action: {
-                    self.vm.playPingPong()
-                    moveToScoreBoard = true
+                    
+                
+                    if playerOneName.isEmpty || playerTwoName.isEmpty {
+                        blinkWarningText()
+                    } else {
+                        self.vm.playPingPong()
+                        moveToScoreBoard = true
+                    }
+
+                    
                 }, label: {
                     Text("Play Game")
                         .font(.custom("DungGeunMo", size: 40))
@@ -356,6 +371,39 @@ struct NewGame: View {
             playerOneName = String(playerOneName.prefix(10))
         }
     }
+    
+   private func blinkWarningText() {
+        guard playerOneName.isEmpty || playerTwoName.isEmpty else { return }
+
+        withAnimation(.easeInOut(duration: 0)) {
+            showWarningText = true
+        }
+
+       DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation(.easeInOut(duration: 0)) {
+                showWarningText = false
+            }
+        }
+
+       DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            withAnimation(.easeInOut(duration: 0)) {
+                showWarningText = true
+            }
+        }
+
+       DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            withAnimation(.easeInOut(duration: 0)) {
+                showWarningText = false
+            }
+        }
+       
+       DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+            withAnimation(.easeInOut(duration: 0)) {
+                showWarningText = true
+            }
+        }
+    }
+
 }
 
 #Preview {
