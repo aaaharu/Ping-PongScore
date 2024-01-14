@@ -47,6 +47,41 @@ class TransparentModalViewController: UIViewController {
 }
 
 
+class TransparentServingModalViewController: UIViewController {
+    private var hostingController: UIHostingController<ServingView>?
+
+    init(isUserOneServing: Binding<Bool>) {
+        super.init(nibName: nil, bundle: nil)
+
+        let rootView = ServingView(isUserOneServing: isUserOneServing, dismissAction: { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            })
+        
+        hostingController = UIHostingController(rootView: rootView)
+
+        setupHostingController()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupHostingController() {
+        guard let hostingView = hostingController?.view else { return }
+        view.addSubview(hostingView)
+        hostingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        hostingView.backgroundColor = .clear
+        
+        NSLayoutConstraint.activate([
+            hostingView.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+}
+
 
 struct PlayerScore: Codable, Identifiable {
     var id = UUID()  // UUID를 사용하여 각 인스턴스가 고유하게 식별되도록 함.
@@ -133,6 +168,67 @@ struct GameOverView: View {
             .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
 
             .zIndex(1)
+            
+            
+    }
+}
+
+
+// 서브 Change View
+struct ServingView: View {
+    @Binding var isUserOneServing: Bool
+    var dismissAction: () -> Void
+    
+    var body: some View {
+        ZStack {
+            
+            VStack {
+               
+                
+                StrokeText(text: "Change Serve?", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                    .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                    .font(.custom("DungGeunMo", size: 30))
+                    .offset(y: UIScreen.main.bounds.height * 0.07)
+                
+                Button {
+                    dismissAction()
+                } label: {
+                    Image("exit", bundle: .main)
+                }.offset(x: UIScreen.main.bounds.width * 0.17, y: UIScreen.main.bounds.height * -0.1)
+
+                
+                
+                Button(action: {
+                    isUserOneServing.toggle()
+                    dismissAction()
+                }) {
+                    StrokeText(text: "Yes", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                        .foregroundStyle(.white)
+                        .font(.custom("DungGeunMo", size: 25))
+                }
+                .frame(width: 320, height: 60)
+                .background(Color.black)
+                .cornerRadius(10)
+                .padding(.bottom, 5)
+                .onTapGesture {
+                    
+                }
+                
+                
+            }
+            .padding()
+            .background(Color(red: 255/255, green: 199/255, blue: 0/255))
+            .cornerRadius(20)
+            .overlay( /// apply a rounded border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(.white, lineWidth: 5)
+            )
+            
+        }
+        .backgroundStyle(.clear)
+            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
+            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
+
             
             
     }
@@ -437,6 +533,10 @@ struct ScoreBoard: View {
                         .foregroundStyle(.white)
                         .font(.system(size: 40, weight:.bold, design: .default))
                         .offset(x: UIScreen.main.bounds.width * -0.3, y: UIScreen.main.bounds.height * 0.62)
+                        .onTapGesture {
+                            // 팝업
+                            presentServingView()
+                        }
                     
                     ZStack {
                         // 플레이어1 세트 스코어
@@ -547,6 +647,9 @@ struct ScoreBoard: View {
                             .foregroundStyle(.white)
                             .font(.system(size: 40, weight:.bold, design: .default))
                             .offset(x: UIScreen.main.bounds.width * 0.301, y: UIScreen.main.bounds.height * 0.6)
+                            .onTapGesture {
+                                presentServingView()
+                            }
                         
                         let playerTwoColor: Color = (playerTwoScore % 5 == 0 && playerTwoScore != 0) ? Color(red: 255/255, green: 199/255, blue: 0/255) : .white
                         
@@ -1057,6 +1160,16 @@ struct ScoreBoard: View {
           rootViewController.present(viewController, animated: true, completion: nil)
       }
     
+    fileprivate func presentServingView() {
+        // 새로운 방식으로 윈도우 찾기
+           guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                 let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+               return
+           }
+
+        let viewController = TransparentServingModalViewController(isUserOneServing: $isUserOneServing)
+           rootViewController.present(viewController, animated: true, completion: nil)
+       }
     
     
 }
