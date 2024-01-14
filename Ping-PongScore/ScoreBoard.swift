@@ -9,6 +9,43 @@ import SwiftUI
 import AVFoundation
 import Foundation
 import NaturalLanguage
+import UIKit
+
+class TransparentModalViewController: UIViewController {
+    private var hostingController: UIHostingController<GameOverView>?
+
+    init(shouldResetScore: Binding<Bool>, gameOver: Binding<Bool>, moveToNewGame: Binding<Bool>) {
+        super.init(nibName: nil, bundle: nil)
+
+        let rootView = GameOverView(shouldResetScore: shouldResetScore, moveToNewGame: moveToNewGame, setGameOver: gameOver, dismissAction: { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            })
+        
+        hostingController = UIHostingController(rootView: rootView)
+
+        setupHostingController()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupHostingController() {
+        guard let hostingView = hostingController?.view else { return }
+        view.addSubview(hostingView)
+        hostingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        hostingView.backgroundColor = .clear
+        
+        NSLayoutConstraint.activate([
+            hostingView.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+}
+
 
 
 struct PlayerScore: Codable, Identifiable {
@@ -23,42 +60,34 @@ struct PlayerScore: Codable, Identifiable {
 // GameOver Alert View
 struct GameOverView: View {
     @Binding var shouldResetScore: Bool
-    @State var moveToNewGame: Bool = false
-    var dismissAction: () -> Void
+    @Binding var moveToNewGame: Bool
+    @Binding var setGameOver: Bool
     var navToNewPlayerView: (() -> Void)?
-    @Environment(\.dismiss) var dismiss
+    
+    var dismissAction: () -> Void
+
 
     
     
     var body: some View {
         ZStack {
             
-            
-            
             VStack {
+               
                 
-                VStack {
-                    HStack {
-                        
-                        StrokeText(text: "End of Game", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
-                            .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
-                            .font(.custom("DungGeunMo", size: 30))
-                        
-                        
-                        
-                        
-                        Button {
-                            print(#fileID, #function, #line, "- <# 주석 #>")
-                            dismiss()
-                        } label: {
-                            Image("exit", bundle: .main)
-                        }
-                        .frame(width: 10, height: 10)
-                        .offset(x: UIScreen.main.bounds.width * 0.20, y: UIScreen.main.bounds.height * -0.1)
-                        
-                    }
-                }
-                .offset(y: UIScreen.main.bounds.height * -0.9)
+                StrokeText(text: "End of Game", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                    .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                    .font(.custom("DungGeunMo", size: 30))
+                    .offset(y: UIScreen.main.bounds.height * 0.07)
+                
+                Button {
+                    print(#fileID, #function, #line, "- <# 주석 #>")
+                    dismissAction()
+                } label: {
+                    Image("exit", bundle: .main)
+                }.offset(x: UIScreen.main.bounds.width * 0.17, y: UIScreen.main.bounds.height * -0.1)
+
+                
                 
                 Button(action: {
                     shouldResetScore = true
@@ -74,9 +103,9 @@ struct GameOverView: View {
                 .padding(.bottom, 5)
                 
                 Button(action: {
-                
-              
+                    
                     moveToNewGame = true
+                    dismissAction()
                     
                 }) {
                     StrokeText(text: "Play with New Player", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
@@ -88,9 +117,6 @@ struct GameOverView: View {
                 .frame(width: 320, height: 60)
                 .background(Color.red)
                 .cornerRadius(10)
-                .navigationDestination(isPresented: $moveToNewGame, destination: {
-                    NewGame()
-                }).navigationBarBackButtonHidden()
                 .padding(.bottom, 20)
             }
             .padding()
@@ -102,8 +128,9 @@ struct GameOverView: View {
             )
             
         }
-            .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.55)
-            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0.35)
+        .backgroundStyle(.clear)
+            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
+            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
 
             .zIndex(1)
             
@@ -231,11 +258,10 @@ struct ScoreBoard: View {
         var servingPlayerOne: Bool
     }
     
-    @State private var shouldResetScore = false
-    @State private var isGameOver = false
-
-    @State private var canSave: Bool = true
     
+    @State private var shouldResetScore = false
+    @State private var canSave: Bool = true
+    @State var moveToNewGame: Bool = false
     
     @StateObject var viewModel : ScoreBoardVM = ScoreBoardVM()
     let soundVM = PlayViewModel()
@@ -316,6 +342,7 @@ struct ScoreBoard: View {
     }
     @State private var deuce = false
     @State private var gameOver = false
+    @State private var setGameOver = false
     
     @State private var winPlayerOne = false
     @State private var winPlayerTwo = false {
@@ -333,17 +360,6 @@ struct ScoreBoard: View {
             
                 
                 ZStack {
-                    
-//                    // 게임 끝난 후 Alert View
-//                    if isGameOver {
-//                      GameOverView(shouldResetScore: $shouldResetScore,
-//                                   dismissAction: {
-//                          isGameOver = false
-//                      },
-//                                   navToNewPlayerView: {
-//                         
-//                      })
-//                    }
                     
 
                     // 홈 버튼
@@ -537,7 +553,7 @@ struct ScoreBoard: View {
                         Text("\(playerTwoScore)")
                             .foregroundStyle(playerTwoColor)
                             .bold()
-                            .font(.system(size: 130, weight:.bold, design: .default))
+                            .font(.system(size: 150, weight:.bold, design: .default))
                             .offset(x: UIScreen.main.bounds.width * 0.3, y: UIScreen.main.bounds.height * 0.35)
                     }
                     
@@ -632,6 +648,9 @@ struct ScoreBoard: View {
                         }
                     
                     }
+                    .sheet(isPresented: $moveToNewGame) {
+                        NewGame()
+                    }
             }
             
             .padding()
@@ -644,12 +663,8 @@ struct ScoreBoard: View {
             .onAppear { // 뷰가 나타날 때 (viewDidLoad 역할)
                 UIApplication.shared.isIdleTimerDisabled = true
             }
-            .sheet(isPresented: $gameOver) {
-                GameOverView(shouldResetScore: $shouldResetScore,
-                             dismissAction: {
-                    isGameOver = false
-                })
-            }
+            
+                
             
             
         }
@@ -966,7 +981,7 @@ struct ScoreBoard: View {
             viewModel.saveScore(currentScore)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                isGameOver = true
+                presentGameOverView()
             }
             
             
@@ -981,7 +996,7 @@ struct ScoreBoard: View {
             viewModel.saveScore(currentScore)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                isGameOver = true
+                presentGameOverView()
             }
         }
         
@@ -1030,6 +1045,17 @@ struct ScoreBoard: View {
             
         }
     }
+    
+   fileprivate func presentGameOverView() {
+       // 새로운 방식으로 윈도우 찾기
+          guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+              return
+          }
+
+       let viewController = TransparentModalViewController(shouldResetScore: $shouldResetScore, gameOver: $setGameOver, moveToNewGame: $moveToNewGame)
+          rootViewController.present(viewController, animated: true, completion: nil)
+      }
     
     
     
