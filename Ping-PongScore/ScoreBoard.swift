@@ -538,6 +538,30 @@ struct ScoreBoard: View {
                             presentServingView()
                         }
                     
+                    // minus 버튼
+                    Button(action: {
+                       subtractUserOneScore()
+                        
+                    }, label: {
+                        Image("minus")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    })
+                    .offset(x: UIScreen.main.bounds.width * -0.36, y: UIScreen.main.bounds.height * 0.77)
+                    
+                    // plus 버튼
+                    Button(action: {
+                       addUserOneScore()
+                        
+                    }, label: {
+                        Image("plus")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    })
+                    .offset(x: UIScreen.main.bounds.width * -0.24, y: UIScreen.main.bounds.height * 0.77)
+                    
                     ZStack {
                         // 플레이어1 세트 스코어
                         Rectangle()
@@ -687,6 +711,30 @@ struct ScoreBoard: View {
                                 }
                             }
                         }))
+                    
+                    // minus 버튼
+                    Button(action: {
+                       subtractUserTwoScore()
+                        
+                    }, label: {
+                        Image("minus")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    })
+                    .offset(x: UIScreen.main.bounds.width * 0.26, y: UIScreen.main.bounds.height * 0.77)
+                    
+                    // plus 버튼
+                    Button(action: {
+                       addUserTwoScore()
+                        
+                    }, label: {
+                        Image("plus")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    })
+                    .offset(x: UIScreen.main.bounds.width * 0.37, y: UIScreen.main.bounds.height * 0.77)
                     
                     // 플레이어2 세트 스코어
                     ZStack {

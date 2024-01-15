@@ -8,11 +8,123 @@
 import SwiftUI
 import UIKit
 
+class TransparentAdModalViewController: UIViewController {
+    private var hostingController: UIHostingController<AdAlertView>?
+
+    init(isUserOneServing: Binding<Bool>) {
+        super.init(nibName: nil, bundle: nil)
+
+        let rootView = AdAlertView(dismissAction: { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            })
+        
+        hostingController = UIHostingController(rootView: rootView)
+
+        setupHostingController()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupHostingController() {
+        guard let hostingView = hostingController?.view else { return }
+        view.addSubview(hostingView)
+        hostingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        hostingView.backgroundColor = .clear
+        
+        NSLayoutConstraint.activate([
+            hostingView.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+}
+
+
+struct AdAlertView: View {
+ 
+    var dismissAction: () -> Void
+
+
+    var body: some View {
+        ZStack {
+            
+            VStack {
+               
+                
+                StrokeText(text: "Notice", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                    .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                    .font(.custom("DungGeunMo", size: 30))
+                    .offset(y: UIScreen.main.bounds.height * 0.07)
+                
+                Button {
+                    print(#fileID, #function, #line, "- <# 주석 #>")
+                    dismissAction()
+                } label: {
+                    Image("exit", bundle: .main)
+                }.offset(x: UIScreen.main.bounds.width * 0.17, y: UIScreen.main.bounds.height * -0.1)
+
+                
+                
+                Button(action: {
+                    dismissAction()
+                }) {
+                    StrokeText(text: "Purchase the App and Continue", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                        .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                        .font(.custom("DungGeunMo", size: 25))
+                }
+                .frame(width: 320, height: 60)
+                .background(Color.blue)
+                .cornerRadius(10)
+                .padding(.bottom, 5)
+                
+                Button(action: {
+                    
+                    dismissAction()
+                    
+                }) {
+                    StrokeText(text: "Watch Ads and Continue", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
+                        .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
+                        .font(.custom("DungGeunMo", size: 25))
+                }
+                
+                
+                .frame(width: 320, height: 60)
+                .background(Color.red)
+                .cornerRadius(10)
+                .padding(.bottom, 20)
+            }
+            .padding()
+            .background(Color(red: 255/255, green: 199/255, blue: 0/255))
+            .cornerRadius(20)
+            .overlay( /// apply a rounded border
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(.white, lineWidth: 5)
+            )
+            
+        }
+        .backgroundStyle(.clear)
+            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
+            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
+
+            .zIndex(1)
+            
+            
+    }
+}
+
+
 struct OpeningView: View {
+    
+    @State private var hasPurchased: Bool = false
+    @State private var showAdView: Bool = false
     
     @State private var defaultNameOne = ""
     @State private var defaultNameTwo = ""
-
+    
     @State private var defaultScore = 0
     @State private var defaultBool = false
     
@@ -36,7 +148,7 @@ struct OpeningView: View {
                 )
             )
         NavigationStack {
-          
+            
             ZStack {
                 // 탁구대
                 Rectangle()
@@ -75,23 +187,23 @@ struct OpeningView: View {
                                     )
                                 )
                             Button(action: {
-                                    loadLastGame = true
-                                    moveToLastGame = true
+                                loadLastGame = true
+                                moveToLastGame = true
                             }, label: {
-                                Text("Last \nGame") 
+                                Text("Last \nGame")
                                     .font(.custom("DungGeunMo", size: 40))
                                     .shadow(color: Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.25), radius: 2, x: 2, y: 3)
                             })
-                              .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
-                                .contentShape(Rectangle())
-                                .foregroundStyle(.black)
-                                .backgroundStyle(.clear)
-                                .padding(0)
-                                .layoutPriority(1)
-                               
-                                .navigationDestination(isPresented: $moveToLastGame, destination: {
-                                    ScoreBoard(playerOneName: $defaultNameOne, playerTwoName: $defaultNameTwo, serviceRight: $defaultBool, loadLastGame: $loadLastGame, isUserOneServing: defaultBool)
-                                }).navigationBarBackButtonHidden()
+                            .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(.black)
+                            .backgroundStyle(.clear)
+                            .padding(0)
+                            .layoutPriority(1)
+                            
+                            .navigationDestination(isPresented: $moveToLastGame, destination: {
+                                ScoreBoard(playerOneName: $defaultNameOne, playerTwoName: $defaultNameTwo, serviceRight: $defaultBool, loadLastGame: $loadLastGame, isUserOneServing: defaultBool)
+                            }).navigationBarBackButtonHidden()
                         }
                         // 빨간판 밑
                         Rectangle()
@@ -111,9 +223,9 @@ struct OpeningView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.05, height:  UIScreen.main.bounds.height * 0.15)
                         
                             .foregroundStyle(Color(red: 166/255, green: 127/255, blue: 106/255))
-                    }                        
+                    }
                     .offset(y: UIScreen.main.bounds.height * 0.02)
-
+                    
                     
                     
                     
@@ -178,11 +290,11 @@ struct OpeningView: View {
                                 )
                             Button(action: {
                                 moveToScoreRecord = true
-                        }, label: {
-                            Text("Score \nRecord")
-                                .font(.custom("DungGeunMo", size: 40))
-                                .shadow(color: Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.25), radius: 2, x: 2, y: 3)
-                        })   .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
+                            }, label: {
+                                Text("Score \nRecord")
+                                    .font(.custom("DungGeunMo", size: 40))
+                                    .shadow(color: Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.25), radius: 2, x: 2, y: 3)
+                            })   .frame(width: UIScreen.main.bounds.width * 0.17, height: UIScreen.main.bounds.height * 0.40)
                                 .contentShape(Rectangle())
                                 .foregroundStyle(.black)
                                 .backgroundStyle(.clear)

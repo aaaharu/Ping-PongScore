@@ -1,4 +1,6 @@
 import SwiftUI
+import GoogleMobileAds
+
 
 struct ScoreRecord: View {
     @ObservedObject var viewModel = ScoreBoardVM()

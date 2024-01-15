@@ -15,6 +15,7 @@
 		D313996B2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996A2B3E95DB0065AF57 /* Ping_PongScoreUITests.swift */; };
 		D313996D2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313996C2B3E95DB0065AF57 /* Ping_PongScoreUITestsLaunchTests.swift */; };
 		D31A13882B4A9A1400F011EA /* ScoreRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31A13872B4A9A1400F011EA /* ScoreRecord.swift */; };
+		D34717C62B540CBF008797B0 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D34717C52B540CBF008797B0 /* GoogleMobileAds */; };
 		D355B8662B4D341B00F77A83 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D355B8652B4D341B00F77A83 /* StoreKit.framework */; };
 		D355B8682B4D346900F77A83 /* StoreSetting.storekit in Resources */ = {isa = PBXBuildFile; fileRef = D355B8672B4D346900F77A83 /* StoreSetting.storekit */; };
 		D355B86A2B4D3A3E00F77A83 /* InAppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355B8692B4D3A3E00F77A83 /* InAppService.swift */; };
@@ -82,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34717C62B540CBF008797B0 /* GoogleMobileAds in Frameworks */,
 				D355B8662B4D341B00F77A83 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +208,9 @@
 			dependencies = (
 			);
 			name = "Ping-PongScore";
+			packageProductDependencies = (
+				D34717C52B540CBF008797B0 /* GoogleMobileAds */,
+			);
 			productName = "Ping-PongScore";
 			productReference = D313994C2B3E95D90065AF57 /* Ping-PongScore.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +285,9 @@
 				ja,
 			);
 			mainGroup = D31399432B3E95D90065AF57;
+			packageReferences = (
+				D34717C42B540CBF008797B0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = D313994D2B3E95D90065AF57 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -432,6 +440,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -488,6 +497,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -680,6 +690,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D34717C42B540CBF008797B0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D34717C52B540CBF008797B0 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D34717C42B540CBF008797B0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D31399442B3E95D90065AF57 /* Project object */;
 }
