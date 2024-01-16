@@ -9,12 +9,18 @@ import SwiftUI
 import UIKit
 import AdSupport
 import AppTrackingTransparency
+import GoogleMobileAds
+import GoogleMobileAdsTarget
+
 
 
 class TransparentAdModalViewController: UIViewController {
+    
     private var hostingController: UIHostingController<AdAlertView>?
     
     init(moveToScoreRecord: Binding<Bool>, moveToPurchaseView: Binding<Bool>) {
+        
+        
         super.init(nibName: nil, bundle: nil)
         
         let rootView = AdAlertView(dismissAction: { [weak self] in
@@ -24,7 +30,17 @@ class TransparentAdModalViewController: UIViewController {
         hostingController = UIHostingController(rootView: rootView)
         
         setupHostingController()
+        
+        NotificationCenter.default.addObserver(forName: .dismissAlertView, object: nil, queue: nil) { noti in
+            
+            self.close()
+        }
     }
+    
+    func close() {
+        self.dismiss(animated: true)
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -52,6 +68,8 @@ struct AdAlertView: View {
     var dismissAction: () -> Void
     @Binding  var moveToScoreRecord: Bool
     @Binding  var moveToPurchaseView: Bool
+    
+    @State private var isAdLoaded = false
     
     
     var body: some View {
@@ -92,10 +110,12 @@ struct AdAlertView: View {
                 
                 
                 Button(action: {
+                 
+                        
+                    NotificationCenter.default.post(name: .dismissAlertView, object: nil)
                     
-                    AdViewController.shared.loadAd()
-
-                    //                    dismissAction()
+                    
+                    
                     
                 }) {
                     StrokeText(text: "Watch Ads and Continue", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
@@ -116,8 +136,15 @@ struct AdAlertView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(.white, lineWidth: 5)
             )
-            
         }
+        .onDisappear(perform: {
+            // 화면이 꺼질 때 광고를 틀어달라고 노티 보내기
+            NotificationCenter.default.post(name: .loadedAd, object: nil)
+        })
+        
+       
+        
+        
         .backgroundStyle(.clear)
         .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
         .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
@@ -125,6 +152,20 @@ struct AdAlertView: View {
         
         
     }
+    
+    //    fileprivate func showAd() {
+    //            print(#fileID, #function, #line, "- <# 주석 #>")
+    //        // 현재 활성 뷰 컨트롤러를 찾는다
+    //        if let windowScene = UIApplication.shared.connectedScenes
+    //            .first(where: { $0 is UIWindowScene }) as? UIWindowScene {
+    //            if let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+    //                // 여기에서 rootVC를 사용함.
+    //                AdViewController.shared.showAdVC(from: rootVC)
+    //            }
+    //
+    //        }
+    //    }
+    
 }
 
 class OpeningViewModel: ObservableObject {
@@ -143,8 +184,12 @@ class OpeningViewModel: ObservableObject {
 
 struct OpeningView: View {
     
-    let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+    private let adViewControllerRepresentable = AdViewControllerRepresentable()
+    private let adCoordinator = AdCoordinator() // 광고를 로드하고 표시하는 역할
+
     
+    let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+
     
     @ObservedObject var viewModel = OpeningViewModel()
     
@@ -347,8 +392,6 @@ struct OpeningView: View {
                                 )
                             Button(action: {
                                 
-                                
-                                
                                 if viewModel.hasPurchased {
                                     moveToScoreRecord = true
                                 } else {
@@ -406,8 +449,22 @@ struct OpeningView: View {
             }
             .onAppear {
                 viewModel.loadPurchaseStatus()
+                adCoordinator.loadAd() // 광고를 미리 준비하세요.
                 print("IDFA: \(idfa)")
+            
                 
+                // 광고를 트세요.
+                NotificationCenter.default.addObserver(forName: .loadedAd, object: nil, queue: nil) { noti in
+                    adCoordinator.presentAd(from: adViewControllerRepresentable.viewController)
+                }
+                
+                // ScoreRecord 화면을 열어주세요.
+                NotificationCenter.default.addObserver(forName: .movoToScoreRecord, object: nil, queue: nil) { noti in
+                   moveToScoreRecord = true
+                }
+    
+               
+                // ad tracking request auth
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     ATTrackingManager.requestTrackingAuthorization { (status) in
                         
@@ -465,10 +522,16 @@ struct OpeningView: View {
             })
             
         }
-    }
+        // 광고vc 뷰 계층에 추가
+        .background{
+            adViewControllerRepresentable
+                    .frame(width: .zero, height: .zero)
+        }}
     
     
     fileprivate func presentAdAlertView() {
+        
+        
         // 새로운 방식으로 윈도우 찾기
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
@@ -480,7 +543,11 @@ struct OpeningView: View {
         
         // TransparentAdModalViewController를 모달로 표시
         rootViewController.present(viewController, animated: true, completion: nil)
+        
     }
+    
+    
+    
     
 }
 

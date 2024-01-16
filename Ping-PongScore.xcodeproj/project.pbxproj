@@ -29,7 +29,7 @@
 		D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D3A160D92B4D15CC003CA379 /* winSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3A160D82B4D15CB003CA379 /* winSound.mp3 */; };
-		D3B652892B5562D5004E2AA1 /* AdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B652882B5562D5004E2AA1 /* AdViewController.swift */; };
+		D3B652892B5562D5004E2AA1 /* AdCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B652882B5562D5004E2AA1 /* AdCoordinator.swift */; };
 		D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3ED4E142B472FF50043FF68 /* Helper.swift */; };
 		D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3ED4E162B47CD540043FF68 /* pingpong.mp3 */; };
 /* End PBXBuildFile section */
@@ -75,7 +75,7 @@
 		D395D1432B443C91006502B7 /* DungGeunMo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DungGeunMo.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D3A160D82B4D15CB003CA379 /* winSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winSound.mp3; sourceTree = SOURCE_ROOT; };
-		D3B652882B5562D5004E2AA1 /* AdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewController.swift; sourceTree = "<group>"; };
+		D3B652882B5562D5004E2AA1 /* AdCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCoordinator.swift; sourceTree = "<group>"; };
 		D3ED4E142B472FF50043FF68 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		D3ED4E162B47CD540043FF68 /* pingpong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pingpong.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -138,8 +138,8 @@
 				D395D1462B443D1B006502B7 /* Info.plist */,
 				D313994F2B3E95D90065AF57 /* Ping_PongScoreApp.swift */,
 				D395D13B2B433B1D006502B7 /* OpeningView.swift */,
+				D3B652882B5562D5004E2AA1 /* AdCoordinator.swift */,
 				D39276AC2B4690C400A347D2 /* NewGame.swift */,
-				D3B652882B5562D5004E2AA1 /* AdViewController.swift */,
 				D31399512B3E95D90065AF57 /* ScoreBoard.swift */,
 				D31A13872B4A9A1400F011EA /* ScoreRecord.swift */,
 				D355B86D2B4D3F5700F77A83 /* PurchaseView.swift */,
@@ -342,7 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D39276AD2B4690C400A347D2 /* NewGame.swift in Sources */,
-				D3B652892B5562D5004E2AA1 /* AdViewController.swift in Sources */,
+				D3B652892B5562D5004E2AA1 /* AdCoordinator.swift in Sources */,
 				D355B86A2B4D3A3E00F77A83 /* InAppService.swift in Sources */,
 				D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */,
 				D31399522B3E95D90065AF57 /* ScoreBoard.swift in Sources */,

@@ -16,7 +16,6 @@ class PingPongAppDelegate: NSObject, UIApplicationDelegate {
             print(#fileID, #function, #line, "- <# 주석 #>")
         InAppService.shared.initIAP() // 인앱을 시작함.
         
-        
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
             [ "269eaf57f0edbd89303f71aa3902f45f" ] // Sample device ID
         

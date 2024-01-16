@@ -19,3 +19,11 @@ extension Font {
     static let dungGeunMo40 = Font.custom("DungGeunMo", size: 40)
 }
 
+
+extension Notification.Name {
+    static let dismissAlertView = Notification.Name("dismissAlertView")
+
+    static let requestLoadingAd = Notification.Name("requestLoadingAd")
+    static let loadedAd = Notification.Name("loadedName")
+    static let movoToScoreRecord = Notification.Name("movoToScoreRecord")
+}
