@@ -1027,8 +1027,12 @@ struct ScoreBoard: View {
     }
     
     fileprivate func updateServing() {
-        if allScore % 2 == 0 {
+        if playerOneScore >= 10 && playerTwoScore >= 10 {
             isUserOneServing.toggle()
+        } else {
+            if allScore % 2 == 0 {
+                isUserOneServing.toggle()
+            }
         }
     }
     

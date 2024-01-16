@@ -23,9 +23,13 @@ class InAppService: NSObject, ObservableObject {
     
     static let shared = InAppService()
     
+    @Published var successPurchased: Bool = false
+    
     let productIds = ["com.EggCompany.pingpongBoard.LV1"]
     
     @Published var isLoading : Bool = false
+    @Published var restoreLoading: Bool = false
+    
     
     @Published var iapProducts = [SKProduct]() {
         didSet {
@@ -63,6 +67,8 @@ class InAppService: NSObject, ObservableObject {
     /// 구매 복구
     func restorePurchase() {
         print(#fileID, #function, #line, "- <# 주석 #>")
+        
+        restoreLoading = true
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
@@ -136,6 +142,7 @@ extension InAppService: SKPaymentTransactionObserver {
         print(#fileID, #function, #line, "- 끝났다")
         withAnimation() {
            isLoading = false
+            restoreLoading = false
        }
         
     }
@@ -151,7 +158,8 @@ extension InAppService: SKPaymentTransactionObserver {
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         print(#fileID, #function, #line, "- 추가 트랜잭션 발생")
-        
+    
+
         for transaction in transactions {
                    print(#fileID, " - paymentQueue - updatedTransactions")
                    print(#fileID, " - Product ID: \(transaction.payment.productIdentifier)")
@@ -177,6 +185,13 @@ extension InAppService: SKPaymentTransactionObserver {
        //                _hud?.hide(animated: true)
                        print(#fileID, " - SKPaymentTransactionState Purchased")
        //                self.boughtPoint(transaction)
+                       
+                       // 구매정보 저장
+                       completePurchase()
+                       
+                       //화면 닫기
+                       successPurchased = true
+                       
 
                        #warning("결제 트랜젝션으로 구매영수증 가져오기")
 
@@ -233,6 +248,7 @@ extension InAppService: SKPaymentTransactionObserver {
        //                _hud?.hide(animated: true)
                        print(#fileID, " - SKPaymentTransactionState Restored")
                        self.restorePurchase()
+                       completePurchase()
 
                        #warning("큐 날리기 - 트랜젝션 종료")
                        SKPaymentQueue.default().finishTransaction(transaction)
@@ -245,7 +261,9 @@ extension InAppService: SKPaymentTransactionObserver {
         
     }
     
+    func completePurchase() {
+        UserDefaults.standard.set(true, forKey: "hasPurchased")
+    }
     
-    
-    
+
 }

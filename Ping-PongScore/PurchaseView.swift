@@ -32,6 +32,9 @@ struct ProductItem : Identifiable {
 
 struct PurchaseView: View {
     
+    @Binding var moveToPurchaseView: Bool
+    
+    @State var successPurchased: Bool = false
     @State var productItems : [ProductItem] = []
     @State var isLoading: Bool = false
     var body: some View {
@@ -48,9 +51,9 @@ struct PurchaseView: View {
             
             if isLoading {
                 Color.gray.opacity(0.3).ignoresSafeArea()
-                                                .overlay(alignment: .center, content: {
-                                                    ProgressView()
-                                                }).zIndex(2)
+                    .overlay(alignment: .center, content: {
+                        ProgressView()
+                    }).zIndex(2)
             }
             
         }
@@ -60,10 +63,17 @@ struct PurchaseView: View {
         .onReceive(InAppService.shared.$isLoading, perform: { isLoading in
             self.isLoading = isLoading
         })
+        .onReceive(InAppService.shared.$successPurchased, perform: { successPurchased in
+            self.successPurchased = successPurchased
+            if successPurchased {
+                // 구매 성공 시 PurchaseView 닫기
+                self.moveToPurchaseView = false
+            }
+        })
     }
     
 }
 
 #Preview {
-    PurchaseView()
+    PurchaseView(moveToPurchaseView: .constant(true))
 }

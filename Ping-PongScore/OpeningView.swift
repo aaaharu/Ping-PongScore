@@ -7,26 +7,29 @@
 
 import SwiftUI
 import UIKit
+import AdSupport
+import AppTrackingTransparency
+
 
 class TransparentAdModalViewController: UIViewController {
     private var hostingController: UIHostingController<AdAlertView>?
-
-    init(isUserOneServing: Binding<Bool>) {
+    
+    init(moveToScoreRecord: Binding<Bool>, moveToPurchaseView: Binding<Bool>) {
         super.init(nibName: nil, bundle: nil)
-
+        
         let rootView = AdAlertView(dismissAction: { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            })
+            self?.dismiss(animated: true, completion: nil)
+        }, moveToScoreRecord: moveToScoreRecord, moveToPurchaseView: moveToPurchaseView)
         
         hostingController = UIHostingController(rootView: rootView)
-
+        
         setupHostingController()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupHostingController() {
         guard let hostingView = hostingController?.view else { return }
         view.addSubview(hostingView)
@@ -45,15 +48,17 @@ class TransparentAdModalViewController: UIViewController {
 
 
 struct AdAlertView: View {
- 
+    
     var dismissAction: () -> Void
-
-
+    @Binding  var moveToScoreRecord: Bool
+    @Binding  var moveToPurchaseView: Bool
+    
+    
     var body: some View {
         ZStack {
             
             VStack {
-               
+                
                 
                 StrokeText(text: "Notice", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
                     .foregroundStyle(Color(red: 255/255, green: 255/255, blue: 255/255))
@@ -66,10 +71,11 @@ struct AdAlertView: View {
                 } label: {
                     Image("exit", bundle: .main)
                 }.offset(x: UIScreen.main.bounds.width * 0.17, y: UIScreen.main.bounds.height * -0.1)
-
+                
                 
                 
                 Button(action: {
+                    moveToPurchaseView = true
                     dismissAction()
                 }) {
                     StrokeText(text: "Purchase the App and Continue", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
@@ -80,10 +86,16 @@ struct AdAlertView: View {
                 .background(Color.blue)
                 .cornerRadius(10)
                 .padding(.bottom, 5)
+                .navigationDestination(isPresented: $moveToScoreRecord, destination: {
+                    ScoreRecord()
+                }).navigationBarBackButtonHidden()
+                
                 
                 Button(action: {
                     
-                    dismissAction()
+                    AdViewController.shared.loadAd()
+
+                    //                    dismissAction()
                     
                 }) {
                     StrokeText(text: "Watch Ads and Continue", width: 1, color: Color(red: 0/255, green: 0/255, blue: 0/255))
@@ -107,20 +119,40 @@ struct AdAlertView: View {
             
         }
         .backgroundStyle(.clear)
-            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
-            .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
+        .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
+        .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
+        
+        
+        
+    }
+}
 
-            .zIndex(1)
-            
-            
+class OpeningViewModel: ObservableObject {
+    @Published var hasPurchased: Bool = false
+    
+    init() {
+        loadPurchaseStatus()
+    }
+    
+    func loadPurchaseStatus() {
+        hasPurchased = UserDefaults.standard.bool(forKey: "hasPurchased")
     }
 }
 
 
+
 struct OpeningView: View {
+    
+    let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+    
+    
+    @ObservedObject var viewModel = OpeningViewModel()
+    
+    @State private var restoreLoading = false
     
     @State private var hasPurchased: Bool = false
     @State private var showAdView: Bool = false
+    @State private var moveToPurchaseView: Bool = false
     
     @State private var defaultNameOne = ""
     @State private var defaultNameTwo = ""
@@ -169,6 +201,31 @@ struct OpeningView: View {
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width * 0.88, height:  6)
                     .foregroundStyle(.white)
+                
+                Button {
+                    // 구매복원하는 동안 로딩중 표시하기
+                    InAppService.shared.restorePurchase()
+                    // 구매복원 후 vm 다시 로드하기
+                    viewModel.loadPurchaseStatus()
+                    
+                } label: {
+                    Image("home-white")
+                        .resizable()
+                        .frame(width: 50, height: 100)
+                }
+                .offset(x: UIScreen.main.bounds.width * -0.38, y: UIScreen.main.bounds.height * 0.4)
+                
+                
+                // 복원 구매 로딩중
+                if restoreLoading {
+                    Color.gray.opacity(0.3).ignoresSafeArea()
+                        .overlay(alignment: .center, content: {
+                            ProgressView()
+                        }).zIndex(2)
+                    
+                    
+                }
+                
                 
                 HStack(spacing: 27) {
                     VStack(spacing: 0) {
@@ -289,7 +346,14 @@ struct OpeningView: View {
                                     )
                                 )
                             Button(action: {
-                                moveToScoreRecord = true
+                                
+                                
+                                
+                                if viewModel.hasPurchased {
+                                    moveToScoreRecord = true
+                                } else {
+                                    presentAdAlertView()
+                                }
                             }, label: {
                                 Text("Score \nRecord")
                                     .font(.custom("DungGeunMo", size: 40))
@@ -301,6 +365,9 @@ struct OpeningView: View {
                                 .padding(0)
                                 .layoutPriority(1)
                                 .font(.custom("DungGeunMo", size: 40))
+                                .navigationDestination(isPresented: $moveToPurchaseView, destination: {
+                                    PurchaseView(moveToPurchaseView: $moveToPurchaseView)
+                                }).navigationBarBackButtonHidden()
                                 .navigationDestination(isPresented: $moveToScoreRecord, destination: {
                                     ScoreRecord()
                                 }).navigationBarBackButtonHidden()
@@ -334,10 +401,87 @@ struct OpeningView: View {
                     
                 }
                 
+                
+                
             }
+            .onAppear {
+                viewModel.loadPurchaseStatus()
+                print("IDFA: \(idfa)")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    ATTrackingManager.requestTrackingAuthorization { (status) in
+                        
+                        
+                        
+                        switch status {
+                            
+                            
+                            
+                        case .authorized:
+                            
+                            
+                            
+                            print("authorized")
+                            
+                            
+                            
+                        case .denied:
+                            
+                            
+                            
+                            print("denied")
+                            
+                            
+                            
+                        case .notDetermined:
+                            
+                            
+                            
+                            print("notDetermined")
+                            
+                            
+                            
+                        case .restricted:
+                            
+                            
+                            
+                            print("restricted")
+                            
+                            
+                            
+                            
+                        @unknown default:
+                            fatalError()
+                        }
+                    }
+                    
+                    
+                    
+                }
+                
+            }
+            .onReceive(InAppService.shared.$restoreLoading, perform: { restoreLoading in
+                self.restoreLoading = restoreLoading
+            })
             
         }
     }
+    
+    
+    fileprivate func presentAdAlertView() {
+        // 새로운 방식으로 윈도우 찾기
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+            return
+        }
+        
+        // TransparentAdModalViewController 초기화
+        let viewController = TransparentAdModalViewController(moveToScoreRecord: $moveToScoreRecord, moveToPurchaseView: $moveToPurchaseView)
+        
+        // TransparentAdModalViewController를 모달로 표시
+        rootViewController.present(viewController, animated: true, completion: nil)
+    }
+    
 }
 
 

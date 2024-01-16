@@ -13,7 +13,10 @@
     "%lld" : {
 
     },
-    "%lld/10" : {
+    "%lld/8" : {
+
+    },
+    "%lld8" : {
 
     },
     "Enter your name!" : {

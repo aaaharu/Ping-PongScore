@@ -207,7 +207,7 @@ struct NewGame: View {
                 
                 // 글자 수 표시
                 Label{
-                    Text("\(playerOnenameCount)/10")
+                    Text("\(playerOnenameCount)/8")
                         .foregroundStyle(Color.white)
                 } icon: {
                     
@@ -290,7 +290,7 @@ struct NewGame: View {
                 
                 // 글자 수 표시
                 Label{
-                    Text("\(playerTwonameCount)/10")
+                    Text("\(playerTwonameCount)8")
                         .foregroundStyle(Color.white)
                 } icon: {
                     
@@ -328,9 +328,14 @@ struct NewGame: View {
                     if playerOneName.isEmpty || playerTwoName.isEmpty {
                         blinkWarningText()
                     } else {
+                        updatePlayerOneName()
+                        updatePlayerTwoName()
+                        
                         self.vm.playPingPong()
                         moveToScoreBoard = true
                     }
+                    
+                    
 
                     
                 }, label: {
@@ -367,7 +372,7 @@ struct NewGame: View {
        }
     
     private func limitText() {
-        if playerOneName.count > 10 {
+        if playerOneName.count > 8 {
             playerOneName = String(playerOneName.prefix(10))
         }
     }
@@ -404,6 +409,24 @@ struct NewGame: View {
         }
     }
 
+    fileprivate func updatePlayerOneName() {
+        let currentLength = playerOneName.count
+        let spacesToAdd = 8 - currentLength
+
+        if spacesToAdd > 0 {
+            playerOneName += String(repeating: " ", count: spacesToAdd)
+        }
+    }
+
+    fileprivate func updatePlayerTwoName() {
+        let currentLength = playerTwoName.count
+        let spacesToAdd = 8 - currentLength
+
+        if spacesToAdd > 0 {
+            playerTwoName += String(repeating: " ", count: spacesToAdd)
+        }
+    }
+    
 }
 
 #Preview {
