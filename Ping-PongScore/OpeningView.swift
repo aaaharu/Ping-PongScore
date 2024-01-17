@@ -65,12 +65,18 @@ class TransparentAdModalViewController: UIViewController {
 
 struct AdAlertView: View {
     
+    enum Selection {
+        case purchase
+        case watchAds
+    }
+    
     var dismissAction: () -> Void
     @Binding  var moveToScoreRecord: Bool
     @Binding  var moveToPurchaseView: Bool
     
     @State private var isAdLoaded = false
     
+    @State var selectedAction : Selection? = nil
     
     var body: some View {
         ZStack {
@@ -93,6 +99,7 @@ struct AdAlertView: View {
                 
                 
                 Button(action: {
+                    selectedAction = .purchase
                     moveToPurchaseView = true
                     dismissAction()
                 }) {
@@ -111,7 +118,7 @@ struct AdAlertView: View {
                 
                 Button(action: {
                  
-                        
+                    selectedAction = .watchAds
                     NotificationCenter.default.post(name: .dismissAlertView, object: nil)
                     
                     
@@ -139,11 +146,13 @@ struct AdAlertView: View {
         }
         .onDisappear(perform: {
             // 화면이 꺼질 때 광고를 틀어달라고 노티 보내기
-            NotificationCenter.default.post(name: .loadedAd, object: nil)
+            
+            if let selectedAction = selectedAction {
+                if selectedAction == .watchAds { // 플래그
+                    NotificationCenter.default.post(name: .loadedAd, object: nil)
+                }
+            }
         })
-        
-       
-        
         
         .backgroundStyle(.clear)
         .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
@@ -511,9 +520,6 @@ struct OpeningView: View {
                             fatalError()
                         }
                     }
-                    
-                    
-                    
                 }
                 
             }

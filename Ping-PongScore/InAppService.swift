@@ -192,6 +192,8 @@ extension InAppService: SKPaymentTransactionObserver {
                        //화면 닫기
                        successPurchased = true
                        
+                       NotificationCenter.default.post(name: .finishedPurchased, object: nil)
+                       
 
                        #warning("결제 트랜젝션으로 구매영수증 가져오기")
 
@@ -219,8 +221,6 @@ extension InAppService: SKPaymentTransactionObserver {
                    case SKPaymentTransactionState.failed:
        //                _hud?.hide(animated: true)
 //                       self.isLoading = false
-                       
-                       
                        print(#fileID, " - SKPaymentTransactionState Failed: \(transaction.error?.localizedDescription ?? "")")
                        print(#fileID, " - Description: \(transaction.error.debugDescription)")
                        print(#fileID, " - Identifier: \(transaction.transactionIdentifier ?? "")")

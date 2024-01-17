@@ -26,4 +26,6 @@ extension Notification.Name {
     static let requestLoadingAd = Notification.Name("requestLoadingAd")
     static let loadedAd = Notification.Name("loadedName")
     static let movoToScoreRecord = Notification.Name("movoToScoreRecord")
+    static let finishedPurchased = Notification.Name("finishedPurchased")
+
 }
