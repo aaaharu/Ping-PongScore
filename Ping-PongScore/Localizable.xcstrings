@@ -19,9 +19,6 @@
     "%lld8" : {
 
     },
-    "Cancel" : {
-
-    },
     "Enter your name!" : {
 
     },
@@ -41,9 +38,6 @@
 
     },
     "Players" : {
-
-    },
-    "Restore Purchase" : {
 
     },
     "Score" : {
@@ -74,12 +68,6 @@
           }
         }
       }
-    },
-    "Would you like to restore app payments?" : {
-
-    },
-    "Yes" : {
-
     }
   },
   "version" : "1.0"

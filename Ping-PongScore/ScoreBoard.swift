@@ -325,7 +325,9 @@ class ScoreBoardVM : ObservableObject {
         scores.append(score)
         if let encoded = try? JSONEncoder().encode(scores) {
             UserDefaults.standard.set(encoded, forKey: "SavedScores")
+          
         }
+        print(#fileID, #function, #line, "- saved score - winner Score: \(score.winnerScore), loser score: \(score.playerScore)")
     }
     
     func loadScores() {
@@ -1053,6 +1055,12 @@ struct ScoreBoard: View {
                     playerOneSetScore += 1
                     (playerOneScore, playerTwoScore) = (0, 0)
 
+                    
+                    // 이겼다 왕관 표시.
+                    winPlayerOne = true
+                    // userDefaults에 스코어 저장.
+                    let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
+                    viewModel.saveScore(currentScore)
                    
                 } else {
                     print(#fileID, #function, #line, "- 듀스에서 userTwo가 이겼습니다.")
@@ -1086,6 +1094,8 @@ struct ScoreBoard: View {
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
                     viewModel.saveScore(currentScore)
+                    
+          
                 } else {
                     print(#fileID, #function, #line, "- userTwo가 이겼습니다.")
                     playerTwoSetScore += 1
@@ -1132,7 +1142,7 @@ struct ScoreBoard: View {
             takenCrownWinner = -0.12
             
             // userDefaults에 스코어 저장.
-            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
+            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneSetScore, playerScore: playerTwoSetScore, date: Date.now)
             viewModel.saveScore(currentScore)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -1147,7 +1157,7 @@ struct ScoreBoard: View {
             takenCrownWinner = 0.12
             
             // userDefaults에 스코어 저장.
-            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
+            let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneSetScore, playerScore: playerTwoSetScore, date: Date.now)
             viewModel.saveScore(currentScore)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
