@@ -207,6 +207,8 @@ struct OpeningView: View {
     @State private var hasPurchased: Bool = false
     @State private var showAdView: Bool = false
     @State private var moveToPurchaseView: Bool = false
+    @State private var showingRestoringAlert = false
+
     
     @State private var defaultNameOne = ""
     @State private var defaultNameTwo = ""
@@ -257,17 +259,31 @@ struct OpeningView: View {
                     .foregroundStyle(.white)
                 
                 Button {
-                    // 구매복원하는 동안 로딩중 표시하기
-                    InAppService.shared.restorePurchase()
-                    // 구매복원 후 vm 다시 로드하기
-                    viewModel.loadPurchaseStatus()
                     
+                    showingRestoringAlert = true
+                   
                 } label: {
-                    Image("home-white")
+                    Image("restoring")
                         .resizable()
-                        .frame(width: 50, height: 100)
+                        .frame(width: 50, height: 50)
                 }
-                .offset(x: UIScreen.main.bounds.width * -0.38, y: UIScreen.main.bounds.height * 0.4)
+                .alert("Restore Purchase", isPresented: $showingRestoringAlert, actions: {
+                    Button(action: {
+                        // 구매복원하는 동안 로딩중 표시하기
+                        InAppService.shared.restorePurchase()
+                        // 구매복원 후 vm 다시 로드하기
+                        viewModel.loadPurchaseStatus()
+                    }, label: {
+                        Text("Yes")
+                    })
+                    
+                    Button("Cancel", role: .cancel, action: {})
+
+                
+                }, message: {
+                    Text("Would you like to restore app payments?")
+                })
+                .offset(x: UIScreen.main.bounds.width * -0.38, y: UIScreen.main.bounds.height * 0.37)
                 
                 
                 // 복원 구매 로딩중
@@ -488,7 +504,7 @@ struct OpeningView: View {
                             
                             
                             print("authorized")
-                            
+                            AdCoordinator.load()
                             
                             
                         case .denied:
