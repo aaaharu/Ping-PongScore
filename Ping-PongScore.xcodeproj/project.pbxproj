@@ -28,6 +28,7 @@
 		D395D1452B443C91006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1472B443FB0006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
 		D395D1482B443FB1006502B7 /* DungGeunMo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D395D1432B443C91006502B7 /* DungGeunMo.ttf */; };
+		D396619B2B58DDFF00438166 /* duece.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D396619A2B58DDFF00438166 /* duece.mp3 */; };
 		D3A160D92B4D15CC003CA379 /* winSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D3A160D82B4D15CB003CA379 /* winSound.mp3 */; };
 		D3B652892B5562D5004E2AA1 /* AdCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B652882B5562D5004E2AA1 /* AdCoordinator.swift */; };
 		D3ED4E152B472FF50043FF68 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3ED4E142B472FF50043FF68 /* Helper.swift */; };
@@ -74,6 +75,7 @@
 		D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DNFBitBitTTF.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1432B443C91006502B7 /* DungGeunMo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DungGeunMo.ttf; sourceTree = SOURCE_ROOT; };
 		D395D1462B443D1B006502B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D396619A2B58DDFF00438166 /* duece.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = duece.mp3; path = ../../../../../duece.mp3; sourceTree = "<group>"; };
 		D3A160D82B4D15CB003CA379 /* winSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winSound.mp3; sourceTree = SOURCE_ROOT; };
 		D3B652882B5562D5004E2AA1 /* AdCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCoordinator.swift; sourceTree = "<group>"; };
 		D3ED4E142B472FF50043FF68 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				D3ED4E162B47CD540043FF68 /* pingpong.mp3 */,
 				D3A160D82B4D15CB003CA379 /* winSound.mp3 */,
+				D396619A2B58DDFF00438166 /* duece.mp3 */,
 				D395D1422B443C91006502B7 /* DNFBitBitTTF.ttf */,
 				D395D1432B443C91006502B7 /* DungGeunMo.ttf */,
 			);
@@ -314,6 +317,7 @@
 				D3ED4E172B47CD540043FF68 /* pingpong.mp3 in Resources */,
 				D31399572B3E95DB0065AF57 /* Preview Assets.xcassets in Resources */,
 				D31399542B3E95DB0065AF57 /* Assets.xcassets in Resources */,
+				D396619B2B58DDFF00438166 /* duece.mp3 in Resources */,
 				D395D1402B43F69B006502B7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -524,7 +528,7 @@
 				INFOPLIST_FILE = "Ping-PongScore/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PingPong Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "IDFA를 허용해주세요";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Please grant permission to provide customized services. You can use the service even if you do not consent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -535,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.EggCompany.Ping-PongScore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -561,7 +565,7 @@
 				INFOPLIST_FILE = "Ping-PongScore/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "PingPong Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "IDFA를 허용해주세요";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Please grant permission to provide customized services. You can use the service even if you do not consent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -572,7 +576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.EggCompany.Ping-PongScore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

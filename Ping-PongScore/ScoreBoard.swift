@@ -1053,53 +1053,60 @@ struct ScoreBoard: View {
                 if playerOneScore > playerTwoScore {
                     print(#fileID, #function, #line, "- 듀스에서 userOne이 이겼습니다.")
                     playerOneSetScore += 1
+                    deuce = false
                     (playerOneScore, playerTwoScore) = (0, 0)
+                    gameOver = false
 
                     
-                    // 이겼다 왕관 표시.
-                    winPlayerOne = true
+                   
+                   
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                    
                 } else {
                     print(#fileID, #function, #line, "- 듀스에서 userTwo가 이겼습니다.")
+
                     playerTwoSetScore += 1
+                    deuce = false
                     (playerOneScore, playerTwoScore) = (0, 0)
+                    gameOver = false
 
                    
-                    // 이겼다 왕관 표시.
-                    winPlayerTwo = true
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerTwoName, player: playerOneName, winnerScore: playerTwoScore, playerScore: playerOneScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                 }
         
             }
+            else if playerOneScore == playerTwoScore {
+                    print(#fileID, #function, #line, "- 또 듀스입니다!")
+                soundVM.playDueceSound()
+            }
         } else {
             // Normal play
             if (playerOneScore >= 11 || playerTwoScore >= 11) && abs(playerOneScore - playerTwoScore) >= 2 {
-
                 gameOver = true
+
                 if playerOneScore > playerTwoScore {
                     print(#fileID, #function, #line, "- userOne이 이겼습니다!")
                     (playerOneScore, playerTwoScore) = (0, 0)
                     playerOneSetScore += 1
+                    gameOver = false
+                   
                   
-                    
-                    
-                    
-                    
-                    
                     // userDefaults에 스코어 저장.
                     let currentScore = PlayerScore(winnerName: playerOneName, player: playerTwoName, winnerScore: playerOneScore, playerScore: playerTwoScore, date: Date.now)
                     viewModel.saveScore(currentScore)
                     
           
-                } else {
+                } else if playerTwoScore > playerOneScore {
                     print(#fileID, #function, #line, "- userTwo가 이겼습니다.")
-                    playerTwoSetScore += 1
                     (playerOneScore, playerTwoScore) = (0, 0)
+                    playerTwoSetScore += 1
+                    gameOver = false
+
+                   
              
                     
                     
@@ -1114,6 +1121,7 @@ struct ScoreBoard: View {
                 deuce = true
                 print(#fileID, #function, #line, "- 듀스입니다.")
                 // TODO: 듀스 사운드 재생.
+                soundVM.playDueceSound()
             }
         }
         print(#fileID, #function, #line, "- winScore 끝")
@@ -1136,6 +1144,7 @@ struct ScoreBoard: View {
     fileprivate func winSetScore() {
         print(#fileID, #function, #line, "- <# 주석 #>")
         
+                
         if playerOneSetScore > playerTwoSetScore {// 이겼다 왕관 표시.
             print(#fileID, #function, #line, "- playerOne이 경기에서 우승했습니다")
             winPlayerOne = true

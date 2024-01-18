@@ -35,6 +35,14 @@ class PlayViewModel {
         self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
         self.audioPlayer.play()
     }
+    
+    func playDueceSound() {
+        let sound = Bundle.main.path(forResource: "duece", ofType: "mp3")
+        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        self.audioPlayer.play()
+    }
+    
+   
 }
 
 
@@ -191,7 +199,7 @@ struct NewGame: View {
                     }
                 
                 // 텍스트필드
-                TextField("Player1", text: $playerOneName){
+                TextField("Enter Player1 Name", text: $playerOneName){
                     UIApplication.shared.endEditing() // 입력을 마치면 키보드가 내려감
                     
                 }
@@ -200,6 +208,7 @@ struct NewGame: View {
                     playerOnenameCount = playerOneName.count
                 })
                 .foregroundStyle(.black)
+                .bold()
                 .background(Color(uiColor: .systemBackground))
                 .frame(width: UIScreen.main.bounds.width * 0.23,
                        height: UIScreen.main.bounds.height * 0.13)
@@ -274,7 +283,7 @@ struct NewGame: View {
                     }
                 
                 // 텍스트필드
-                TextField("Player2", text: $playerTwoName){
+                TextField("Enter Player2 Name", text: $playerTwoName){
                     UIApplication.shared.endEditing() // 입력을 마치면 키보드가 내려감
                     
                 }
@@ -283,6 +292,7 @@ struct NewGame: View {
                     playerTwonameCount = playerTwoName.count
                 })
                 .foregroundStyle(.black)
+                .bold()
                 .background(Color(uiColor: .systemBackground))
                 .frame(width: UIScreen.main.bounds.width * 0.23,
                        height: UIScreen.main.bounds.height * 0.13)

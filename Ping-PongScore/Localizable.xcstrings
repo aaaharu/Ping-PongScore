@@ -19,6 +19,12 @@
     "%lld8" : {
 
     },
+    "Enter Player1 Name" : {
+
+    },
+    "Enter Player2 Name" : {
+
+    },
     "Enter your name!" : {
 
     },
@@ -29,12 +35,6 @@
 
     },
     "Play Game" : {
-
-    },
-    "Player1" : {
-
-    },
-    "Player2" : {
 
     },
     "Players" : {
