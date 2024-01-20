@@ -258,43 +258,43 @@ struct OpeningView: View {
                     .frame(width: UIScreen.main.bounds.width * 0.88, height:  6)
                     .foregroundStyle(.white)
                 
-//                Button {
-//                    
-//                    showingRestoringAlert = true
-//                   
-//                } label: {
-//                    Image("restoring")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                }
-//                .alert("Restore Purchase", isPresented: $showingRestoringAlert, actions: {
-//                    Button(action: {
-//                        // 구매복원하는 동안 로딩중 표시하기
-//                        InAppService.shared.restorePurchase()
-//                        // 구매복원 후 vm 다시 로드하기
-//                        viewModel.loadPurchaseStatus()
-//                    }, label: {
-//                        Text("Yes")
-//                    })
-//                    
-//                    Button("Cancel", role: .cancel, action: {})
+                Button {
+                    
+                    showingRestoringAlert = true
+                   
+                } label: {
+                    Image("restoring")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                }
+                .alert("Restore Purchase", isPresented: $showingRestoringAlert, actions: {
+                    Button(action: {
+                        // 구매복원하는 동안 로딩중 표시하기
+                        InAppService.shared.restorePurchase()
+                        // 구매복원 후 vm 다시 로드하기
+                        viewModel.loadPurchaseStatus()
+                    }, label: {
+                        Text("Yes")
+                    })
+                    
+                    Button("Cancel", role: .cancel, action: {})
 
-//                
-//                }, message: {
-//                    Text("Would you like to restore app payments?")
-//                })
-//                .offset(x: UIScreen.main.bounds.width * -0.38, y: UIScreen.main.bounds.height * 0.37)
                 
-//                
-//                // 복원 구매 로딩중
-//                if restoreLoading {
-//                    Color.gray.opacity(0.3).ignoresSafeArea()
-//                        .overlay(alignment: .center, content: {
-//                            ProgressView()
-//                        }).zIndex(2)
-//                    
-//                    
-//                }
+                }, message: {
+                    Text("Would you like to restore app payments?")
+                })
+                .offset(x: UIScreen.main.bounds.width * -0.38, y: UIScreen.main.bounds.height * 0.37)
+                
+                
+                // 복원 구매 로딩중
+                if restoreLoading {
+                    Color.gray.opacity(0.3).ignoresSafeArea()
+                        .overlay(alignment: .center, content: {
+                            ProgressView()
+                        }).zIndex(2)
+                    
+                    
+                }
                 
                 
                 HStack(spacing: 27) {
@@ -419,11 +419,11 @@ struct OpeningView: View {
                                 
                                 moveToScoreRecord = true
                                 
-//                                if viewModel.hasPurchased {
-//                                    moveToScoreRecord = true
-//                                } else {
-//                                    presentAdAlertView()
-//                                }
+                                if viewModel.hasPurchased {
+                                    moveToScoreRecord = true
+                                } else {
+                                    presentAdAlertView()
+                                }
                                 
                             }, label: {
                                 Text("Score \nRecord")
@@ -476,7 +476,7 @@ struct OpeningView: View {
                 
             }
             .onAppear {
-                viewModel.loadPurchaseStatus()
+                viewModel.loadPurchaseStatus() // 구매상태를 확인하세요.
                 adCoordinator.loadAd() // 광고를 미리 준비하세요.
                 print("IDFA: \(idfa)")
             
