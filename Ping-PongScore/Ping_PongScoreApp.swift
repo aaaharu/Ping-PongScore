@@ -15,8 +15,7 @@ struct Ping_PongScoreApp: App {
     @State private var defaultBool = false
     var body: some Scene {
         WindowGroup {
-            OpeningView(loadLastGame: defaultBool
-            )
+            OpeningView(loadLastGame: defaultBool)
 //
 //            PurchaseView()
         }

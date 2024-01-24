@@ -155,6 +155,7 @@ struct AdAlertView: View {
         })
         
         .backgroundStyle(.clear)
+        
         .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.55)
         .offset(x: UIScreen.main.bounds.width * 0, y: UIScreen.main.bounds.height * 0)
         
@@ -417,7 +418,7 @@ struct OpeningView: View {
                                 )
                             Button(action: {
                                 
-                                moveToScoreRecord = true
+//                                moveToScoreRecord = true
                                 
                                 if viewModel.hasPurchased {
                                     moveToScoreRecord = true
@@ -522,7 +523,7 @@ struct OpeningView: View {
                             
                             
                             
-                            print("notDetermined")
+            print("notDetermined")
                             
                             
                             

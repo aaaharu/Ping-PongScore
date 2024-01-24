@@ -25,7 +25,7 @@ class InAppService: NSObject, ObservableObject {
     
     @Published var successPurchased: Bool = false
     
-    let productIds = ["com.EggCompany.pingpongBoard.LV1"]
+    let productIds = ["PingPong_Delete_AD"]
     
     @Published var isLoading : Bool = false
     @Published var restoreLoading: Bool = false
@@ -80,7 +80,7 @@ class InAppService: NSObject, ObservableObject {
             
             if SKPaymentQueue.canMakePayments() {
                 print(#fileID, " - 구매가능")
-                
+
 //                self.isLoading = true
 //                
                 if let skProductToBePaid = product.skProduct {
@@ -163,7 +163,7 @@ extension InAppService: SKPaymentTransactionObserver {
         for transaction in transactions {
                    print(#fileID, " - paymentQueue - updatedTransactions")
                    print(#fileID, " - Product ID: \(transaction.payment.productIdentifier)")
-                   print(#fileID, " - Transaction ID: \(transaction.transactionIdentifier ?? "")")
+            print(#fileID, " - Transaction ID: \(transaction.transactionIdentifier ?? "")")
 
                    switch transaction.transactionState {
 
@@ -184,6 +184,9 @@ extension InAppService: SKPaymentTransactionObserver {
 //                       self.isLoading = false
        //                _hud?.hide(animated: true)
                        print(#fileID, " - SKPaymentTransactionState Purchased")
+                       print(#fileID, " - Transaction ID: \(transaction.transactionIdentifier ?? "")")
+
+                       
        //                self.boughtPoint(transaction)
                        
                        // 구매정보 저장
@@ -267,3 +270,6 @@ extension InAppService: SKPaymentTransactionObserver {
     
 
 }
+
+
+
